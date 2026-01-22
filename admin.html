@@ -1,0 +1,573 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SwaMedia Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .admin-page { display: none; }
+        .admin-page.active { display: block; }
+        .fade-in { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        #episodeModal { background-color: rgba(0,0,0,0.7); }
+    </style>
+</head>
+<body class="bg-black text-white font-sans">
+
+    <!-- Login View -->
+    <div id="loginView" class="flex items-center justify-center min-h-screen">
+        <div class="w-full max-w-md p-8 bg-gray-900 rounded-lg shadow-lg">
+            <h1 class="text-3xl font-bold text-center text-red-500 mb-6">SwaMedia Admin</h1>
+            <form id="loginForm" class="space-y-4">
+                <input type="email" id="loginEmail" class="w-full bg-gray-800 border border-gray-700 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-red-500" placeholder="Email" required>
+                <input type="password" id="loginPassword" class="w-full bg-gray-800 border border-gray-700 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-red-500" placeholder="Password" required>
+                <button type="submit" class="w-full bg-red-600 hover:bg-red-700 rounded-lg p-3 font-bold transition-colors">Login</button>
+            </form>
+            <p id="authError" class="text-red-500 text-center mt-4"></p>
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div id="adminPanel" class="hidden">
+        <div class="flex h-screen bg-black">
+            <!-- Sidebar -->
+            <aside class="w-64 bg-gray-900 text-white flex flex-col">
+                <div class="p-4 text-2xl font-bold border-b border-gray-800">SwaMedia</div>
+                <nav class="flex-1 p-2 space-y-1">
+                    <a href="#" data-page="dashboardPage" class="nav-link flex items-center px-4 py-2 rounded-lg bg-red-600"><i class="fas fa-tachometer-alt w-6 mr-3"></i> Dashboard</a>
+                    <a href="#" data-page="moviesPage" class="nav-link flex items-center px-4 py-2 rounded-lg hover:bg-gray-700"><i class="fas fa-film w-6 mr-3"></i> Movies</a>
+                    <a href="#" data-page="tvShowsPage" class="nav-link flex items-center px-4 py-2 rounded-lg hover:bg-gray-700"><i class="fas fa-tv w-6 mr-3"></i> TV Shows</a>
+                    <a href="#" data-page="categoriesPage" class="nav-link flex items-center px-4 py-2 rounded-lg hover:bg-gray-700"><i class="fas fa-tags w-6 mr-3"></i> Categories</a>
+                    <a href="#" data-page="bannersPage" class="nav-link flex items-center px-4 py-2 rounded-lg hover:bg-gray-700"><i class="fas fa-images w-6 mr-3"></i> Banners</a>
+                </nav>
+                <div class="p-4 border-t border-gray-800">
+                    <button id="logoutButton" class="w-full text-left flex items-center px-4 py-2 rounded-lg hover:bg-red-600"><i class="fas fa-sign-out-alt w-6 mr-3"></i> Logout</button>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="flex-1 p-6 lg:p-10 overflow-y-auto">
+                <!-- Dashboard Page -->
+                <div id="dashboardPage" class="admin-page active fade-in">
+                    <h1 class="text-3xl font-bold mb-6">Dashboard</h1>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                         <div class="bg-gray-900 p-6 rounded-lg shadow-md flex items-center">
+                            <i class="fas fa-film text-3xl text-red-500 mr-4"></i>
+                            <div><p class="text-gray-400">Total Movies</p><p id="totalMovies" class="text-2xl font-bold">0</p></div>
+                        </div>
+                        <div class="bg-gray-900 p-6 rounded-lg shadow-md flex items-center">
+                            <i class="fas fa-tv text-3xl text-red-500 mr-4"></i>
+                            <div><p class="text-gray-400">Total TV Shows</p><p id="totalTvShows" class="text-2xl font-bold">0</p></div>
+                        </div>
+                        <div class="bg-gray-900 p-6 rounded-lg shadow-md flex items-center">
+                            <i class="fas fa-tags text-3xl text-red-500 mr-4"></i>
+                            <div><p class="text-gray-400">Total Categories</p><p id="totalCategories" class="text-2xl font-bold">0</p></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Movies Page -->
+                <div id="moviesPage" class="admin-page fade-in">
+                    <h1 class="text-3xl font-bold mb-6">Manage Movies</h1>
+                    <div class="bg-gray-900 p-6 rounded-lg shadow-md">
+                        <h2 id="movieFormTitle" class="text-xl font-bold mb-4">Add New Movie</h2>
+                        <form id="movieForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <input type="hidden" id="movieId">
+                            <input type="text" id="movieTitle" placeholder="Title" class="bg-gray-800 p-2 rounded" required>
+                            <input type="number" id="movieYear" placeholder="Year" class="bg-gray-800 p-2 rounded">
+                            <input type="url" id="moviePosterUrl" placeholder="Poster URL" class="bg-gray-800 p-2 rounded md:col-span-2" required>
+                            <input type="url" id="movieWatchUrl" placeholder="Watch Link URL" class="bg-gray-800 p-2 rounded md:col-span-2" required>
+                            <input type="number" step="0.1" id="movieRating" placeholder="Rating (e.g., 8.5)" class="bg-gray-800 p-2 rounded">
+                            <select id="movieCategory" class="bg-gray-800 p-2 rounded" required></select>
+                            <input type="text" id="movieCast" placeholder="Cast (comma-separated)" class="bg-gray-800 p-2 rounded md:col-span-2">
+                            <textarea id="movieDescription" placeholder="Description" class="bg-gray-800 p-2 rounded md:col-span-2 h-24"></textarea>
+                            <div class="md:col-span-2 flex space-x-2">
+                                <button type="submit" class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded font-bold">Save Movie</button>
+                                <button type="button" id="cancelMovieEdit" class="bg-gray-600 hover:bg-gray-500 px-4 py-2 rounded font-bold hidden">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="bg-gray-900 p-6 rounded-lg shadow-md mt-6 overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead><tr class="border-b border-gray-700"><th class="p-2">Title</th><th class="p-2">Year</th><th class="p-2">Actions</th></tr></thead>
+                            <tbody id="moviesTable"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- TV Shows Page -->
+                <div id="tvShowsPage" class="admin-page fade-in">
+                    <h1 class="text-3xl font-bold mb-6">Manage TV Shows</h1>
+                    <div class="bg-gray-900 p-6 rounded-lg shadow-md">
+                        <h2 id="tvShowFormTitle" class="text-xl font-bold mb-4">Add New TV Show</h2>
+                        <form id="tvShowForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <input type="hidden" id="tvShowId">
+                            <input type="text" id="tvShowTitle" placeholder="Title" class="bg-gray-800 p-2 rounded" required>
+                            <input type="number" id="tvShowYear" placeholder="Year" class="bg-gray-800 p-2 rounded">
+                            <input type="url" id="tvShowPosterUrl" placeholder="Poster URL" class="bg-gray-800 p-2 rounded md:col-span-2" required>
+                            <input type="number" step="0.1" id="tvShowRating" placeholder="Rating (e.g., 8.5)" class="bg-gray-800 p-2 rounded">
+                            <select id="tvShowCategory" class="bg-gray-800 p-2 rounded" required></select>
+                            <input type="text" id="tvShowCast" placeholder="Cast (comma-separated)" class="bg-gray-800 p-2 rounded md:col-span-2">
+                            <textarea id="tvShowDescription" placeholder="Description" class="bg-gray-800 p-2 rounded md:col-span-2 h-24"></textarea>
+                            <div class="md:col-span-2 flex space-x-2">
+                                <button type="submit" class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded font-bold">Save Show</button>
+                                <button type="button" id="cancelTvShowEdit" class="bg-gray-600 hover:bg-gray-500 px-4 py-2 rounded font-bold hidden">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="bg-gray-900 p-6 rounded-lg shadow-md mt-6 overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead><tr class="border-b border-gray-700"><th class="p-2">Title</th><th class="p-2">Year</th><th class="p-2">Actions</th></tr></thead>
+                            <tbody id="tvShowsTable"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Categories Page -->
+                <div id="categoriesPage" class="admin-page fade-in">
+                    <h1 class="text-3xl font-bold mb-6">Manage Categories</h1>
+                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-gray-900 p-6 rounded-lg shadow-md">
+                            <h2 id="categoryFormTitle" class="text-xl font-bold mb-4">Add New Category</h2>
+                            <form id="categoryForm" class="flex space-x-2">
+                                <input type="hidden" id="categoryId">
+                                <input type="text" id="categoryName" placeholder="Category Name" class="flex-grow bg-gray-800 p-2 rounded" required>
+                                <button type="submit" class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded font-bold">Save</button>
+                                <button type="button" id="cancelCategoryEdit" class="bg-gray-600 hover:bg-gray-500 px-4 py-2 rounded font-bold hidden">Cancel</button>
+                            </form>
+                        </div>
+                        <div class="bg-gray-900 p-6 rounded-lg shadow-md">
+                            <table class="w-full text-left">
+                                <thead><tr class="border-b border-gray-700"><th class="p-2">Name</th><th class="p-2">Actions</th></tr></thead>
+                                <tbody id="categoriesTable"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Banners Page -->
+                <div id="bannersPage" class="admin-page fade-in">
+                     <h1 class="text-3xl font-bold mb-6">Manage Banners</h1>
+                     <div class="bg-gray-900 p-6 rounded-lg shadow-md">
+                         <h2 id="bannerFormTitle" class="text-xl font-bold mb-4">Add New Banner</h2>
+                         <form id="bannerForm" class="flex space-x-2">
+                             <input type="hidden" id="bannerId">
+                             <input type="url" id="bannerImageUrl" placeholder="Banner Image URL" class="flex-grow bg-gray-800 p-2 rounded" required>
+                             <button type="submit" class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded font-bold">Save</button>
+                             <button type="button" id="cancelBannerEdit" class="bg-gray-600 hover:bg-gray-500 px-4 py-2 rounded font-bold hidden">Cancel</button>
+                         </form>
+                     </div>
+                     <div class="bg-gray-900 p-6 rounded-lg shadow-md mt-6">
+                         <table class="w-full text-left">
+                             <thead><tr class="border-b border-gray-700"><th class="p-2">Image</th><th class="p-2">Actions</th></tr></thead>
+                             <tbody id="bannersTable"></tbody>
+                         </table>
+                     </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <!-- Episode Management Modal -->
+    <div id="episodeModal" class="fixed inset-0 z-50 items-center justify-center hidden">
+        <div class="bg-gray-900 rounded-lg shadow-xl w-full max-w-3xl max-h-[90vh] flex flex-col">
+            <div class="flex justify-between items-center p-4 border-b border-gray-700">
+                <h2 id="episodeModalTitle" class="text-xl font-bold">Manage Episodes</h2>
+                <button id="closeEpisodeModal" class="text-2xl">&times;</button>
+            </div>
+            <div class="p-6 overflow-y-auto">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="font-bold mb-2">Add Episode</h3>
+                        <form id="episodeForm" class="space-y-3">
+                            <input type="hidden" id="currentShowId">
+                            <input type="hidden" id="currentEpisodeId">
+                             <input type="number" id="episodeSeason" placeholder="Season Number" class="w-full bg-gray-800 p-2 rounded" required>
+                            <input type="text" id="episodeTitle" placeholder="Episode Title" class="w-full bg-gray-800 p-2 rounded" required>
+                            <input type="url" id="episodeWatchUrl" placeholder="Episode Watch URL" class="w-full bg-gray-800 p-2 rounded" required>
+                            <div class="flex space-x-2">
+                                <button type="submit" class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded font-bold">Save Episode</button>
+                                <button type="button" id="cancelEpisodeEdit" class="bg-gray-600 hover:bg-gray-500 px-4 py-2 rounded font-bold hidden">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div>
+                        <h3 class="font-bold mb-2">Seasons & Episodes</h3>
+                        <div id="seasonsList" class="space-y-4"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+        import { getDatabase, ref, onValue, set, push, remove, update, get } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+        
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            databaseURL: "https://<YOUR-PROJECT-ID>.firebaseio.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+        
+        function initializeAppAndRun() {
+            try {
+                const app = initializeApp(firebaseConfig);
+                const db = getDatabase(app);
+                const auth = getAuth(app);
+                runApp(db, auth);
+            } catch (error) {
+                 console.error("Firebase initialization failed:", error);
+                document.body.innerHTML = `<div class="flex items-center justify-center h-screen bg-black text-white"><div class="text-center"><h1 class="text-2xl text-red-500">Firebase Configuration Error</h1><p class="mt-2 text-gray-400">Please check your Firebase configuration in admin.html.</p><p class="mt-1 text-sm text-gray-500">${error.message}</p></div></div>`;
+            }
+        }
+
+        function runApp(db, auth) {
+            const loginView = document.getElementById('loginView');
+            const adminPanel = document.getElementById('adminPanel');
+            const authError = document.getElementById('authError');
+
+            onAuthStateChanged(auth, user => {
+                if (user) {
+                    loginView.style.display = 'none';
+                    adminPanel.style.display = 'block';
+                    initAdminPanel(db);
+                } else {
+                    loginView.style.display = 'flex';
+                    adminPanel.style.display = 'none';
+                }
+            });
+
+            document.getElementById('loginForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const email = document.getElementById('loginEmail').value;
+                const password = document.getElementById('loginPassword').value;
+                signInWithEmailAndPassword(auth, email, password)
+                    .catch(error => { authError.textContent = error.message; });
+            });
+            document.getElementById('logoutButton').addEventListener('click', () => signOut(auth));
+
+            const pages = document.querySelectorAll('.admin-page');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const showPage = (pageId) => {
+                if (!pageId) return;
+                pages.forEach(page => page.classList.toggle('active', page.id === pageId));
+                navLinks.forEach(link => {
+                    link.classList.toggle('bg-red-600', link.dataset.page === pageId);
+                    link.classList.toggle('hover:bg-gray-700', link.dataset.page !== pageId);
+                });
+            };
+            navLinks.forEach(link => link.addEventListener('click', (e) => { e.preventDefault(); showPage(e.currentTarget.dataset.page); }));
+
+            const loadDashboardStats = () => {
+                onValue(ref(db, 'movies'), s => { document.getElementById('totalMovies').textContent = s.exists() ? Object.keys(s.val()).length : 0; });
+                onValue(ref(db, 'tvshows'), s => { document.getElementById('totalTvShows').textContent = s.exists() ? Object.keys(s.val()).length : 0; });
+                onValue(ref(db, 'categories'), s => { document.getElementById('totalCategories').textContent = s.exists() ? Object.keys(s.val()).length : 0; });
+            };
+
+            const resetForm = (form, titleEl, titleText, cancelBtn) => {
+                form.reset();
+                const hiddenInput = form.querySelector('input[type="hidden"]');
+                if(hiddenInput) hiddenInput.value = '';
+                if(titleEl) titleEl.textContent = titleText;
+                if (cancelBtn) cancelBtn.classList.add('hidden');
+            }
+
+            // --- MOVIES CRUD ---
+            const movieForm = document.getElementById('movieForm');
+            const moviesTable = document.getElementById('moviesTable');
+            const movieFormTitle = document.getElementById('movieFormTitle');
+            const cancelMovieEdit = document.getElementById('cancelMovieEdit');
+            
+            movieForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const id = document.getElementById('movieId').value;
+                const movieData = {
+                    title: document.getElementById('movieTitle').value, year: document.getElementById('movieYear').value, posterUrl: document.getElementById('moviePosterUrl').value, watchUrl: document.getElementById('movieWatchUrl').value,
+                    rating: document.getElementById('movieRating').value, categoryId: document.getElementById('movieCategory').value, cast: document.getElementById('movieCast').value, description: document.getElementById('movieDescription').value,
+                };
+                const promise = id ? update(ref(db, `movies/${id}`), movieData) : push(ref(db, 'movies'), movieData);
+                promise.then(() => {
+                    if (id) { resetForm(movieForm, movieFormTitle, 'Add New Movie', cancelMovieEdit); } 
+                    else { movieForm.reset(); }
+                }).catch(err => alert(err.message));
+            });
+            onValue(ref(db, 'movies'), snapshot => {
+                moviesTable.innerHTML = '';
+                if (snapshot.exists()) {
+                    snapshot.forEach(child => {
+                        const { title, year } = child.val();
+                        if(title && child.key) moviesTable.innerHTML += `<tr><td class="p-2">${title}</td><td class="p-2">${year||'N/A'}</td><td class="p-2"><button data-id="${child.key}" class="edit-movie text-red-500 mr-2"><i class="fas fa-edit"></i></button><button data-id="${child.key}" class="delete-movie text-red-500"><i class="fas fa-trash"></i></button></td></tr>`;
+                    });
+                }
+            });
+            moviesTable.addEventListener('click', (e) => {
+                const target = e.target.closest('button');
+                if (!target) return;
+                const id = target.dataset.id;
+                if(!id) return;
+                if (target.classList.contains('edit-movie')) {
+                    onValue(ref(db, `movies/${id}`), snapshot => {
+                        const movie = snapshot.val();
+                        if(movie) {
+                            document.getElementById('movieId').value = id; document.getElementById('movieTitle').value = movie.title || ''; document.getElementById('movieYear').value = movie.year || ''; document.getElementById('moviePosterUrl').value = movie.posterUrl || ''; document.getElementById('movieWatchUrl').value = movie.watchUrl || '';
+                            document.getElementById('movieRating').value = movie.rating || ''; document.getElementById('movieCategory').value = movie.categoryId || ''; document.getElementById('movieCast').value = movie.cast || ''; document.getElementById('movieDescription').value = movie.description || '';
+                            movieFormTitle.textContent = 'Edit Movie'; cancelMovieEdit.classList.remove('hidden'); window.scrollTo(0, 0);
+                        }
+                    }, { onlyOnce: true });
+                } else if (target.classList.contains('delete-movie') && confirm('Delete movie?')) remove(ref(db, `movies/${id}`));
+            });
+            cancelMovieEdit.addEventListener('click', () => resetForm(movieForm, movieFormTitle, 'Add New Movie', cancelMovieEdit));
+
+            // --- TV SHOWS CRUD ---
+            const tvShowForm = document.getElementById('tvShowForm');
+            const tvShowsTable = document.getElementById('tvShowsTable');
+            const tvShowFormTitle = document.getElementById('tvShowFormTitle');
+            const cancelTvShowEdit = document.getElementById('cancelTvShowEdit');
+            
+            tvShowForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const id = document.getElementById('tvShowId').value;
+                const showData = {
+                    title: document.getElementById('tvShowTitle').value, year: document.getElementById('tvShowYear').value, posterUrl: document.getElementById('tvShowPosterUrl').value,
+                    rating: document.getElementById('tvShowRating').value, categoryId: document.getElementById('tvShowCategory').value, cast: document.getElementById('tvShowCast').value, description: document.getElementById('tvShowDescription').value,
+                };
+                const promise = id ? update(ref(db, `tvshows/${id}`), showData) : push(ref(db, 'tvshows'), showData);
+                promise.then(() => {
+                    if (id) { resetForm(tvShowForm, tvShowFormTitle, 'Add New TV Show', cancelTvShowEdit); } 
+                    else { tvShowForm.reset(); }
+                }).catch(err => alert(err.message));
+            });
+            onValue(ref(db, 'tvshows'), snapshot => {
+                tvShowsTable.innerHTML = '';
+                if (snapshot.exists()) {
+                    snapshot.forEach(child => {
+                        const { title, year } = child.val();
+                        if (title && child.key) tvShowsTable.innerHTML += `<tr><td class="p-2">${title}</td><td class="p-2">${year||'N/A'}</td><td class="p-2"><button data-id="${child.key}" class="manage-episodes text-green-500 mr-2"><i class="fas fa-list-ol"></i></button><button data-id="${child.key}" class="edit-show text-red-500 mr-2"><i class="fas fa-edit"></i></button><button data-id="${child.key}" class="delete-show text-red-500"><i class="fas fa-trash"></i></button></td></tr>`;
+                    });
+                }
+            });
+             tvShowsTable.addEventListener('click', (e) => {
+                const target = e.target.closest('button');
+                if (!target) return;
+                const id = target.dataset.id;
+                if(!id) return;
+                if (target.classList.contains('edit-show')) {
+                    onValue(ref(db, `tvshows/${id}`), snapshot => {
+                        const show = snapshot.val();
+                        if(show) {
+                            document.getElementById('tvShowId').value = id; document.getElementById('tvShowTitle').value = show.title || ''; document.getElementById('tvShowYear').value = show.year || ''; document.getElementById('tvShowPosterUrl').value = show.posterUrl || '';
+                            document.getElementById('tvShowRating').value = show.rating || ''; document.getElementById('tvShowCategory').value = show.categoryId || ''; document.getElementById('tvShowCast').value = show.cast || ''; document.getElementById('tvShowDescription').value = show.description || '';
+                            tvShowFormTitle.textContent = 'Edit TV Show'; cancelTvShowEdit.classList.remove('hidden'); window.scrollTo(0, 0);
+                        }
+                    }, { onlyOnce: true });
+                } else if (target.classList.contains('delete-show') && confirm('Delete show?')) remove(ref(db, `tvshows/${id}`));
+                else if (target.classList.contains('manage-episodes')) openEpisodeModal(id);
+            });
+            cancelTvShowEdit.addEventListener('click', () => resetForm(tvShowForm, tvShowFormTitle, 'Add New TV Show', cancelTvShowEdit));
+            
+            // --- EPISODE MANAGEMENT ---
+            const episodeModal = document.getElementById('episodeModal');
+            const episodeForm = document.getElementById('episodeForm');
+            const cancelEpisodeEdit = document.getElementById('cancelEpisodeEdit');
+            
+            const openEpisodeModal = (showId) => {
+                onValue(ref(db, `tvshows/${showId}/title`), (snapshot) => {
+                     document.getElementById('episodeModalTitle').textContent = `Episodes for: ${snapshot.val()}`;
+                }, { onlyOnce: true });
+                document.getElementById('currentShowId').value = showId;
+                episodeModal.style.display = 'flex';
+                loadSeasonsAndEpisodes(showId);
+            };
+            
+            document.getElementById('closeEpisodeModal').addEventListener('click', () => { episodeModal.style.display = 'none'; resetForm(episodeForm, null, '', cancelEpisodeEdit); });
+            cancelEpisodeEdit.addEventListener('click', () => resetForm(episodeForm, null, '', cancelEpisodeEdit));
+
+            episodeForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const showId = document.getElementById('currentShowId').value;
+                const episodeId = document.getElementById('currentEpisodeId').value;
+                const season = document.getElementById('episodeSeason').value;
+                const episodeData = { title: document.getElementById('episodeTitle').value, watchUrl: document.getElementById('episodeWatchUrl').value };
+                
+                if(!showId || !season) return;
+
+                const episodePath = `tvshows/${showId}/seasons/${season}/episodes`;
+                const promise = episodeId ? update(ref(db, `${episodePath}/${episodeId}`), episodeData) : push(ref(db, episodePath), episodeData);
+
+                promise.then(() => {
+                    if (episodeId) { resetForm(episodeForm, null, '', cancelEpisodeEdit); }
+                    else { episodeForm.reset(); }
+                }).catch(err => alert(err.message));
+            });
+
+            const loadSeasonsAndEpisodes = (showId) => {
+                const seasonsListContainer = document.getElementById('seasonsList');
+                onValue(ref(db, `tvshows/${showId}/seasons`), (snapshot) => {
+                    seasonsListContainer.innerHTML = '';
+                    if(snapshot.exists()){
+                        snapshot.forEach(seasonSnap => {
+                            const seasonNum = seasonSnap.key;
+                            const seasonDiv = document.createElement('div');
+                            let episodesHTML = '';
+                            if(seasonSnap.hasChild('episodes')) {
+                                seasonSnap.child('episodes').forEach(epSnap => {
+                                    const ep = epSnap.val();
+                                    episodesHTML += `<div class="flex justify-between items-center text-sm ml-4 p-1 bg-gray-800 rounded mt-1"><span>${ep.title}</span><div><button class="edit-episode text-red-500 mr-2" data-show-id="${showId}" data-season="${seasonNum}" data-ep-id="${epSnap.key}"><i class="fas fa-edit"></i></button><button class="delete-episode text-red-500" data-show-id="${showId}" data-season="${seasonNum}" data-ep-id="${epSnap.key}"><i class="fas fa-trash"></i></button></div></div>`;
+                                });
+                            }
+                            seasonDiv.innerHTML = `<div class="font-bold bg-gray-700 p-2 rounded">Season ${seasonNum}</div>${episodesHTML}`;
+                            seasonsListContainer.appendChild(seasonDiv);
+                        });
+                    } else {
+                        seasonsListContainer.innerHTML = '<p class="text-gray-400">No episodes added yet.</p>';
+                    }
+                });
+            };
+
+            document.getElementById('seasonsList').addEventListener('click', e => {
+                const target = e.target.closest('button');
+                if(!target) return;
+                const { showId, season, epId } = target.dataset;
+                if(!showId || !season || !epId) return;
+
+                const path = `tvshows/${showId}/seasons/${season}/episodes/${epId}`;
+                if(target.classList.contains('delete-episode') && confirm('Delete episode?')) {
+                    remove(ref(db, path));
+                } else if(target.classList.contains('edit-episode')) {
+                    onValue(ref(db, path), (snapshot) => {
+                        const ep = snapshot.val();
+                        document.getElementById('currentEpisodeId').value = epId;
+                        document.getElementById('episodeSeason').value = season;
+                        document.getElementById('episodeTitle').value = ep.title;
+                        document.getElementById('episodeWatchUrl').value = ep.watchUrl;
+                        cancelEpisodeEdit.classList.remove('hidden');
+                    }, { onlyOnce: true });
+                }
+            });
+
+            // --- CATEGORIES CRUD ---
+            const categoryForm = document.getElementById('categoryForm');
+            const categoriesTable = document.getElementById('categoriesTable');
+            const categoryFormTitle = document.getElementById('categoryFormTitle');
+            const cancelCategoryEdit = document.getElementById('cancelCategoryEdit');
+            categoryForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const id = document.getElementById('categoryId').value;
+                const name = document.getElementById('categoryName').value;
+                const promise = id ? update(ref(db, `categories/${id}`), { name }) : push(ref(db, 'categories'), { name });
+                promise.then(() => {
+                    if(id) { resetForm(categoryForm, categoryFormTitle, 'Add New Category', cancelCategoryEdit); }
+                    else { categoryForm.reset(); }
+                }).catch(err => alert(err.message));
+            });
+            onValue(ref(db, 'categories'), snapshot => {
+                categoriesTable.innerHTML = '';
+                if (snapshot.exists()) {
+                    snapshot.forEach(child => {
+                        const { name } = child.val();
+                        if(child.key && name) categoriesTable.innerHTML += `<tr><td class="p-2">${name}</td><td class="p-2"><button data-id="${child.key}" data-name="${name}" class="edit-cat text-red-500 mr-2"><i class="fas fa-edit"></i></button><button data-id="${child.key}" class="delete-cat text-red-500"><i class="fas fa-trash"></i></button></td></tr>`;
+                    });
+                }
+                const movieCatDropdown = document.getElementById('movieCategory');
+                const tvShowCatDropdown = document.getElementById('tvShowCategory');
+                movieCatDropdown.innerHTML = '<option value="">Select Category</option>';
+                tvShowCatDropdown.innerHTML = '<option value="">Select Category</option>';
+                 if(snapshot.exists()){
+                        snapshot.forEach(child => {
+                            const { name } = child.val();
+                            if (name) {
+                                const option = `<option value="${child.key}">${name}</option>`;
+                                movieCatDropdown.innerHTML += option;
+                                tvShowCatDropdown.innerHTML += option;
+                            }
+                        });
+                    }
+            });
+            categoriesTable.addEventListener('click', (e) => {
+                const target = e.target.closest('button');
+                if (!target) return;
+                const id = target.dataset.id;
+                if(!id) return;
+                if (target.classList.contains('edit-cat')) {
+                    document.getElementById('categoryId').value = id;
+                    document.getElementById('categoryName').value = target.dataset.name;
+                    categoryFormTitle.textContent = 'Edit Category';
+                    cancelCategoryEdit.classList.remove('hidden');
+                } else if (target.classList.contains('delete-cat') && confirm('Delete category?')) remove(ref(db, `categories/${id}`));
+            });
+            cancelCategoryEdit.addEventListener('click', () => resetForm(categoryForm, categoryFormTitle, 'Add New Category', cancelCategoryEdit));
+
+            // --- BANNERS CRUD ---
+            const bannerForm = document.getElementById('bannerForm');
+            const bannersTable = document.getElementById('bannersTable');
+            const bannerFormTitle = document.getElementById('bannerFormTitle');
+            const cancelBannerEdit = document.getElementById('cancelBannerEdit');
+            bannerForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const id = document.getElementById('bannerId').value;
+                const imageUrl = document.getElementById('bannerImageUrl').value;
+                const promise = id ? update(ref(db, `banners/${id}`), { imageUrl }) : push(ref(db, 'banners'), { imageUrl });
+                promise.then(() => {
+                    if (id) { resetForm(bannerForm, bannerFormTitle, 'Add New Banner', cancelBannerEdit); }
+                    else { bannerForm.reset(); }
+                }).catch(err => alert(err.message));
+            });
+            onValue(ref(db, 'banners'), snapshot => {
+                bannersTable.innerHTML = '';
+                if(snapshot.exists()){
+                    snapshot.forEach(child => {
+                        const { imageUrl } = child.val();
+                        if(child.key && imageUrl) bannersTable.innerHTML += `<tr><td class="p-2"><img src="${imageUrl}" class="h-10 rounded"></td><td class="p-2"><button data-id="${child.key}" data-url="${imageUrl}" class="edit-banner text-red-500 mr-2"><i class="fas fa-edit"></i></button><button data-id="${child.key}" class="delete-banner text-red-500"><i class="fas fa-trash"></i></button></td></tr>`;
+                    });
+                }
+            });
+            bannersTable.addEventListener('click', (e) => {
+                const target = e.target.closest('button');
+                if (!target) return;
+                const id = target.dataset.id;
+                if(!id) return;
+                if (target.classList.contains('edit-banner')) {
+                    document.getElementById('bannerId').value = id;
+                    document.getElementById('bannerImageUrl').value = target.dataset.url;
+                    bannerFormTitle.textContent = 'Edit Banner';
+                    cancelBannerEdit.classList.remove('hidden');
+                } else if (target.classList.contains('delete-banner') && confirm('Delete banner?')) remove(ref(db, `banners/${id}`));
+            });
+            cancelBannerEdit.addEventListener('click', () => resetForm(bannerForm, bannerFormTitle, 'Add New Banner', cancelBannerEdit));
+            
+            async function seedInitialCategories(db) {
+                const categoriesRef = ref(db, 'categories');
+                const snapshot = await get(categoriesRef);
+                if (!snapshot.exists()) {
+                    console.log('No categories found. Seeding initial data...');
+                    const initialCategories = [
+                        'Action', 'Comedy', 'Drama', 'Horror', 'Sci-Fi', 
+                        'Thriller', 'Romance', 'Animation', 'Family', 'Adventure'
+                    ];
+                    for (const name of initialCategories) {
+                        await push(categoriesRef, { name });
+                    }
+                }
+            }
+
+            async function initAdminPanel(db) {
+                showPage('dashboardPage');
+                loadDashboardStats();
+                await seedInitialCategories(db);
+            }
+        }
+        
+        initializeAppAndRun();
+    </script>
+</body>
+</html>
