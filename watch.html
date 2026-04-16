@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SwaMedia - Watch</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #000; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #1f2937; }
+        ::-webkit-scrollbar-thumb { background: #4b5563; border-radius: 10px; }
+        #video-loader { transition: opacity 0.3s; }
+        #video-loader.hidden { opacity: 0; pointer-events: none; }
+        .star-btn { color: #4b5563; transition: all 0.2s; }
+        .star-btn:hover, .star-btn.active { color: #fbbf24 !important; }
+        .comment-item { background: #1f2937; border-radius: 0.5rem; padding: 1rem; animation: fadeIn 0.3s; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        #toast { transition: transform 0.3s; z-index: 9999; }
+        #toast.show { transform: translateX(0); }
+    </style>
+</head>
+<body class="bg-black text-white">
+    <!-- Loading Spinner -->
+    <div id="video-loader" class="fixed inset-0 bg-black z-50 flex items-center justify-center">
+        <div class="text-center">
+            <div class="w-16 h-16 border-4 border-red-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
+            <p class="text-slate-400 mt-4">Loading...</p>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="flex justify-between items-center px-4 py-3 bg-gray-900/80 backdrop-blur-sm sticky top-0 z-40 border-b border-gray-800">
+        <div class="flex items-center space-x-2">
+            <svg class="w-8 h-8 text-red-500" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M6.5 10.5C5.67 10.5 5 11.17 5 12s.67 1.5 1.5 1.5S8 12.83 8 12 7.33 10.5 6.5 10.5zm11 0C16.67 10.5 16 11.17 16 12s.67 1.5 1.5 1.5S19 12.83 19 12s-.67-1.5-1.5-1.5zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+            </svg>
+            <span class="text-xl font-bold text-red-500">SwaMedia</span>
+        </div>
+        <button onclick="window.history.back()" class="bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-lg">
+            <i class="fas fa-arrow-left mr-2"></i>Back
+        </button>
+    </header>
+
+    <!-- Video Player -->
+    <section class="w-full">
+        <div class="relative aspect-video bg-black">
+            <video id="video-player" class="w-full h-full" controls playsinline></video>
+        </div>
+    </section>
+
+    <!-- Video Details -->
+    <section class="p-4 max-w-4xl mx-auto">
+        <!-- Title -->
+        <h1 id="video-title" class="text-2xl md:text-3xl font-bold mb-2">Loading...</h1>
+        
+        <!-- Meta Info -->
+        <div class="flex flex-wrap items-center gap-3 text-slate-400 mb-4">
+            <span id="video-year"></span>
+            <span id="video-genre" class="text-red-400"></span>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-wrap gap-3 mb-4">
+            <button onclick="shareVideo()" class="bg-gray-800 hover:bg-blue-600 px-4 py-2 rounded-lg transition-colors">
+                <i class="fas fa-share-alt mr-2"></i>Share
+            </button>
+            <button onclick="addToList()" class="bg-gray-800 hover:bg-yellow-600 px-4 py-2 rounded-lg transition-colors">
+                <i class="fas fa-bookmark mr-2"></i>Add to List
+            </button>
+        </div>
+
+        <!-- Star Rating -->
+        <div class="flex items-center gap-2 mb-4">
+            <div id="star-rating" class="flex gap-1">
+                <button onclick="rateVideo(1)" class="star-btn text-2xl"><i class="fas fa-star"></i></button>
+                <button onclick="rateVideo(2)" class="star-btn text-2xl"><i class="fas fa-star"></i></button>
+                <button onclick="rateVideo(3)" class="star-btn text-2xl"><i class="fas fa-star"></i></button>
+                <button onclick="rateVideo(4)" class="star-btn text-2xl"><i class="fas fa-star"></i></button>
+                <button onclick="rateVideo(5)" class="star-btn text-2xl"><i class="fas fa-star"></i></button>
+            </div>
+            <span id="rating-display" class="text-slate-400 text-sm ml-2"></span>
+        </div>
+
+        <!-- Like/Dislike -->
+        <div class="flex gap-4 mb-4 p-3 bg-gray-900 rounded-lg">
+            <button onclick="vote('like')" id="like-btn" class="flex items-center gap-2 text-slate-400 hover:text-green-500">
+                <i class="fas fa-thumbs-up text-xl"></i>
+                <span id="likes-count">0</span>
+            </button>
+            <button onclick="vote('dislike')" id="dislike-btn" class="flex items-center gap-2 text-slate-400 hover:text-red-500">
+                <i class="fas fa-thumbs-down text-xl"></i>
+                <span id="dislikes-count">0</span>
+            </button>
+        </div>
+
+        <!-- Play Next -->
+        <button id="play-next-btn" onclick="playNext()" class="w-full md:w-auto bg-red-600 hover:bg-red-700 font-bold py-3 px-6 rounded-lg mb-4">
+            <i class="fas fa-forward mr-2"></i>Play Next Episode
+        </button>
+
+        <!-- Genre Tags -->
+        <div id="genre-tags" class="flex flex-wrap gap-2 mb-4">
+        </div>
+
+        <!-- Description -->
+        <div class="mb-4">
+            <h2 class="text-lg font-semibold mb-2">Description</h2>
+            <p id="video-description" class="text-slate-300 leading-relaxed"></p>
+        </div>
+    </section>
+
+    <!-- Comments Section -->
+    <section class="p-4 max-w-4xl mx-auto border-t border-gray-800">
+        <h2 class="text-xl font-bold mb-4"><i class="fas fa-comments mr-2"></i>Comments</h2>
+        
+        <!-- Comment Form -->
+        <form onsubmit="postComment(event)" class="mb-4">
+            <textarea id="comment-input" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 mb-2 text-white" rows="3" placeholder="Write a comment..."></textarea>
+            <button type="submit" class="bg-red-600 hover:bg-red-700 font-bold py-2 px-4 rounded-lg">
+                <i class="fas fa-paper-plane mr-2"></i>Post Comment
+            </button>
+        </form>
+
+        <!-- Comments List -->
+        <div id="comments-list" class="space-y-3">
+            <p class="text-slate-400 text-center py-4">No comments yet. Be the first!</p>
+        </div>
+    </section>
+
+    <!-- Toast -->
+    <div id="toast" class="fixed bottom-4 right-4 bg-gray-900 border border-red-500/50 text-white px-4 py-3 rounded-lg transform translate-x-full">
+        <p id="toast-message"></p>
+    </div>
+
+    <script>
+        // Get URL parameters
+        const params = new URLSearchParams(window.location.search);
+        const videoId = params.get('id');
+        const videoType = params.get('type') || 'movie';
+
+        // Video data
+        let videoData = { title: 'Loading...', likes: 0, dislikes: 0 };
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadVideoData();
+        });
+
+        function loadVideoData() {
+            // Try to get video data from sessionStorage (passed from index.html)
+            const stored = sessionStorage.getItem('currentVideoData');
+            if (stored) {
+                videoData = JSON.parse(stored);
+                renderVideo();
+            } else if (videoId) {
+                // Try to find in localStorage
+                const allVideos = JSON.parse(localStorage.getItem('adminContent') || '[]');
+                const found = allVideos.find(v => v.id === videoId);
+                if (found) {
+                    videoData = found;
+                    renderVideo();
+                } else {
+                    // Use ID as title
+                    document.getElementById('video-title').textContent = 'Video ID: ' + videoId;
+                    hideLoader();
+                }
+            } else {
+                document.getElementById('video-title').textContent = 'No video selected';
+                hideLoader();
+            }
+        }
+
+        function renderVideo() {
+            document.getElementById('video-title').textContent = videoData.title || 'Untitled';
+            document.getElementById('video-year').textContent = videoData.year || '';
+            document.getElementById('video-genre').textContent = videoData.category || '';
+            document.getElementById('video-description').textContent = videoData.description || 'No description.';
+            document.getElementById('likes-count').textContent = videoData.likes || 0;
+            document.getElementById('dislikes-count').textContent = videoData.dislikes || 0;
+
+            // Set video source
+            const player = document.getElementById('video-player');
+            if (videoData.mediaUrl) {
+                player.src = videoData.mediaUrl;
+            } else if (videoData.videoUrl) {
+                player.src = videoData.videoUrl;
+            }
+
+            // Set poster
+            if (videoData.posterUrl) {
+                player.poster = videoData.posterUrl;
+            }
+
+            // Render genre tags
+            if (videoData.category) {
+                document.getElementById('genre-tags').innerHTML = 
+                    '<span class="bg-gray-800 px-3 py-1 rounded-full text-sm">' + videoData.category + '</span>';
+            }
+
+            // Check for next episode
+            const playNextBtn = document.getElementById('play-next-btn');
+            if (!videoData.nextEpisodeId && !videoData.nextUrl) {
+                playNextBtn.disabled = true;
+                playNextBtn.innerHTML = '<i class="fas fa-check"></i> No Next Episode';
+                playNextBtn.classList.add('opacity-50');
+            }
+
+            // Load saved rating
+            const savedRating = localStorage.getItem('rating_' + videoId);
+            if (savedRating) {
+                updateStars(parseInt(savedRating));
+            }
+
+            // Load saved vote
+            const savedVote = localStorage.getItem('vote_' + videoId);
+            if (savedVote === 'like') document.getElementById('like-btn').classList.add('text-green-500');
+            if (savedVote === 'dislike') document.getElementById('dislike-btn').classList.add('text-red-500');
+
+            // Load comments
+            loadComments();
+
+            hideLoader();
+        }
+
+        function hideLoader() {
+            document.getElementById('video-loader').classList.add('hidden');
+        }
+
+        function showToast(msg) {
+            document.getElementById('toast-message').textContent = msg;
+            document.getElementById('toast').classList.add('show');
+            setTimeout(() => document.getElementById('toast').classList.remove('show'), 3000);
+        }
+
+        function rateVideo(rating) {
+            updateStars(rating);
+            localStorage.setItem('rating_' + videoId, rating);
+            showToast('You rated ' + rating + ' stars!');
+        }
+
+        function updateStars(rating) {
+            const stars = document.querySelectorAll('.star-btn');
+            stars.forEach((star, i) => {
+                star.classList.toggle('active', i < rating);
+            });
+        }
+
+        function vote(type) {
+            const current = localStorage.getItem('vote_' + videoId);
+            const likeBtn = document.getElementById('like-btn');
+            const dislikeBtn = document.getElementById('dislike-btn');
+            
+            if (current === type) {
+                // Remove vote
+                localStorage.removeItem('vote_' + videoId);
+                likeBtn.classList.remove('text-green-500');
+                dislikeBtn.classList.remove('text-red-500');
+                showToast('Vote removed');
+            } else {
+                // Add/change vote
+                localStorage.setItem('vote_' + videoId, type);
+                likeBtn.classList.toggle('text-green-500', type === 'like');
+                dislikeBtn.classList.toggle('text-red-500', type === 'dislike');
+                showToast(type === 'like' ? 'Liked!' : 'Disliked!');
+            }
+        }
+
+        function shareVideo() {
+            if (navigator.share) {
+                navigator.share({ title: videoData.title, url: window.location.href });
+            } else {
+                navigator.clipboard.writeText(window.location.href);
+                showToast('Link copied!');
+            }
+        }
+
+        function addToList() {
+            let list = JSON.parse(localStorage.getItem('watchlist') || '[]');
+            if (!list.includes(videoId)) {
+                list.push(videoId);
+                localStorage.setItem('watchlist', JSON.stringify(list));
+                showToast('Added to watchlist!');
+            } else {
+                showToast('Already in watchlist');
+            }
+        }
+
+        function playNext() {
+            if (videoData.nextEpisodeId) {
+                window.location.href = 'watch.html?id=' + videoData.nextEpisodeId;
+            } else if (videoData.nextUrl) {
+                window.location.href = videoData.nextUrl;
+            }
+        }
+
+        function loadComments() {
+            const comments = JSON.parse(localStorage.getItem('comments_' + videoId) || '[]');
+            const container = document.getElementById('comments-list');
+            
+            if (comments.length === 0) {
+                container.innerHTML = '<p class="text-slate-400 text-center py-4">No comments yet. Be the first!</p>';
+                return;
+            }
+
+            container.innerHTML = comments.map(c => '
+                <div class="comment-item">
+                    <div class="flex justify-between mb-1">
+                        <span class="font-bold text-red-400">' + (c.name || 'Anonymous') + '</span>
+                        <span class="text-slate-500 text-sm">' + timeSince(c.time) + '</span>
+                    </div>
+                    <p class="text-slate-300">' + c.text + '</p>
+                </div>
+            ').join('');
+        }
+
+        function postComment(e) {
+            e.preventDefault();
+            const input = document.getElementById('comment-input');
+            const text = input.value.trim();
+            if (!text) return showToast('Write something!');
+
+            const comments = JSON.parse(localStorage.getItem('comments_' + videoId) || '[]');
+            comments.push({ text: text, name: 'User', time: Date.now() });
+            localStorage.setItem('comments_' + videoId, JSON.stringify(comments));
+            
+            input.value = '';
+            loadComments();
+            showToast('Comment posted!');
+        }
+
+        function timeSince(ts) {
+            if (!ts) return '';
+            const s = Math.floor((Date.now() - ts) / 1000);
+            if (s > 86400) return Math.floor(s/86400) + 'd ago';
+            if (s > 3600) return Math.floor(s/3600) + 'h ago';
+            if (s > 60) return Math.floor(s/60) + 'm ago';
+            return 'Just now';
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.target.tagName === 'TEXTAREA') return;
+            const p = document.getElementById('video-player');
+            if (e.key === ' ') { e.preventDefault(); p.paused ? p.play() : p.pause(); }
+            if (e.key === 'ArrowLeft') p.currentTime = Math.max(0, p.currentTime - 10);
+            if (e.key === 'ArrowRight') p.currentTime = Math.min(p.duration, p.currentTime + 10);
+            if (e.key === 'f') p.requestFullscreen();
+        });
+    </script>
+</body>
+</html>
