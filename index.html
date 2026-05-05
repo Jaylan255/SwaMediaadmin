@@ -59,28 +59,31 @@
                         <button data-view="genres" class="admin-nav-item text-left p-2 rounded hover:bg-gray-800"><i class="fas fa-tags w-6 mr-2"></i>Genres</button>
                         <button data-view="djgenres" class="admin-nav-item text-left p-2 rounded hover:bg-gray-800"><i class="fas fa-headphones w-6 mr-2"></i>DJ Genres</button>
                         <button data-view="connection" class="admin-nav-item text-left p-2 rounded hover:bg-gray-800"><i class="fas fa-link w-6 mr-2"></i>Connection</button>
-                        <button data-view="xxx" class="admin-nav-item text-left p-2 rounded hover:bg-gray-800"><i class="fas fa-fire w-6 mr-2"></i>XXX</button>
+                        <button data-view="xxx" class="admin-nav-item text-left p-2 rounded hover:bg-gray-800"><i class="fas fa-fire w-6 mr-2"></i>SwaX</button>
                         <div class="border-t border-gray-700 my-2"></div>
                         <button data-view="banners" class="admin-nav-item text-left p-2 rounded hover:bg-gray-800"><i class="fas fa-images w-6 mr-2"></i>Home Banners</button>
                         <button data-view="series-banners" class="admin-nav-item text-left p-2 rounded hover:bg-gray-800"><i class="fas fa-tv w-6 mr-2"></i>Series Banners</button>
                         <button data-view="connection-banners" class="admin-nav-item text-left p-2 rounded hover:bg-gray-800"><i class="fas fa-images w-6 mr-2"></i>Connection Banners</button>
-                        <button data-view="xxx-banners" class="admin-nav-item text-left p-2 rounded hover:bg-gray-800"><i class="fas fa-images w-6 mr-2"></i>XXX Banners</button>
+                        <button data-view="xxx-banners" class="admin-nav-item text-left p-2 rounded hover:bg-gray-800"><i class="fas fa-images w-6 mr-2"></i>SwaX Banners</button>
                         <button data-view="stories" class="admin-nav-item text-left p-2 rounded hover:bg-gray-800"><i class="fas fa-book-open w-6 mr-2"></i>Stories</button>
                         <button data-view="story-genres" class="admin-nav-item text-left p-2 rounded hover:bg-gray-800"><i class="fas fa-bookmark w-6 mr-2"></i>Story Genres</button>
                         <button data-view="story-banners" class="admin-nav-item text-left p-2 rounded hover:bg-gray-800"><i class="fas fa-image w-6 mr-2"></i>Story Banners</button>
                         <div class="border-t border-gray-700 my-2"></div>
                         <button data-view="pages" class="admin-nav-item text-left p-2 rounded hover:bg-gray-800"><i class="fas fa-file-alt w-6 mr-2"></i>Pages</button>
                         <button data-view="social-links" class="admin-nav-item text-left p-2 rounded hover:bg-gray-800"><i class="fas fa-share-alt w-6 mr-2"></i>Social Links</button>
-                        <button data-view="notifications" class="admin-nav-item text-left p-2 rounded hover:bg-gray-800"><i class="fas fa-bell w-6 mr-2"></i>Notifications</button>
-                        <button data-view="feedback" class="admin-nav-item text-left p-2 rounded hover:bg-gray-800"><i class="fas fa-comments w-6 mr-2"></i>Maoni</button>
+                        <button data-view="notifications" class="admin-nav-item text-left p-2 rounded hover:bg-gray-800 relative"><i class="fas fa-bell w-6 mr-2"></i>Notifications<span id="notifications-alert-dot" class="hidden absolute right-3 top-3 w-2.5 h-2.5 rounded-full bg-red-500"></span></button>
+                        <button data-view="feedback" class="admin-nav-item text-left p-2 rounded hover:bg-gray-800 relative"><i class="fas fa-comments w-6 mr-2"></i>Maoni<span id="feedback-alert-dot" class="hidden absolute right-3 top-3 w-2.5 h-2.5 rounded-full bg-red-500"></span></button>
                         <button data-view="push-notifications" class="admin-nav-item text-left p-2 rounded hover:bg-gray-800"><i class="fas fa-paper-plane w-6 mr-2"></i>Push Notifications</button>
                         <button data-view="advertisements" class="admin-nav-item text-left p-2 rounded hover:bg-gray-800"><i class="fas fa-ad w-6 mr-2"></i>Advertisements</button>
                         <button data-view="swa-media-ads" class="admin-nav-item text-left p-2 rounded hover:bg-gray-800"><i class="fas fa-bullhorn w-6 mr-2"></i>SwaMedia Ads</button>
                         <button data-view="update-ad" class="admin-nav-item text-left p-2 rounded hover:bg-gray-800"><i class="fas fa-sync-alt w-6 mr-2"></i>Update App Ad</button>
                         <div class="border-t border-gray-700 my-2"></div>
+                        <button data-view="junior-admin-control" class="admin-nav-item text-left p-2 rounded hover:bg-gray-800"><i class="fas fa-user-lock w-6 mr-2"></i>Junior Admin</button>
+                        <button data-view="junior-admin-uploads" class="admin-nav-item text-left p-2 rounded hover:bg-gray-800 relative"><i class="fas fa-folder-open w-6 mr-2"></i>Junior Uploads<span id="junior-uploads-alert-dot" class="hidden absolute right-3 top-3 w-2.5 h-2.5 rounded-full bg-red-500"></span></button>
                         <button data-view="users" class="admin-nav-item text-left p-2 rounded hover:bg-gray-800"><i class="fas fa-users w-6 mr-2"></i>Users</button>
                         <button data-view="subscriptions" class="admin-nav-item text-left p-2 rounded hover:bg-gray-800"><i class="fas fa-chart-pie w-6 mr-2"></i>Paid / Unpaid</button>
                         <button data-view="premium" class="admin-nav-item text-left p-2 rounded hover:bg-gray-800"><i class="fas fa-gem w-6 mr-2"></i>Premium</button>
+                        <button data-view="coupons" class="admin-nav-item text-left p-2 rounded hover:bg-gray-800"><i class="fas fa-ticket-alt w-6 mr-2"></i>Coupons</button>
                         <div class="border-t border-gray-700 my-2"></div>
                         <button id="admin-logout-btn" type="button" class="text-left p-2 rounded hover:bg-red-900/40 text-red-400"><i class="fas fa-right-from-bracket w-6 mr-2"></i>Logout</button>
                     </nav>
@@ -136,7 +139,8 @@
         
         const PREMIUM_PLAN_PRESETS = {
             custom_days: { label: 'Custom Days', durationMs: 0, amount: 0, durationLabel: 'Custom Days' },
-            two_seconds: { label: '1000 - 2 Seconds', durationMs: 2 * 1000, amount: 1000, durationLabel: '2 Seconds' },
+            two_hours: { label: '500 - 2 Hours', durationMs: 2 * 60 * 60 * 1000, amount: 500, durationLabel: '2 Hours' },
+            six_hours: { label: '1000 - 6 Hours', durationMs: 6 * 60 * 60 * 1000, amount: 1000, durationLabel: '6 Hours' },
             one_day: { label: '2000 - 1 Day', durationMs: 24 * 60 * 60 * 1000, amount: 2000, durationLabel: '1 Day' },
             one_week: { label: '3000 - 1 Week', durationMs: 7 * 24 * 60 * 60 * 1000, amount: 3000, durationLabel: '1 Week' },
             two_weeks: { label: '5000 - 2 Weeks', durationMs: 14 * 24 * 60 * 60 * 1000, amount: 5000, durationLabel: '2 Weeks' },
@@ -156,14 +160,25 @@
         let xxxContentCache = [];
         let usersCache = [];
         let watchAnalyticsUsersCache = [];
+        let downloadAnalyticsUsersCache = [];
         let contentWatchAnalyticsCache = [];
+        let visitAnalyticsDailyCache = [];
+        let couponsCache = [];
+        let notificationsCache = [];
+        let feedbackCache = [];
+        let adminControlSettings = { juniorBlocked: false };
+        let juniorAdminTracking = { startedAt: 0, lastLoginAt: 0 };
         let movieListFilter = 'all';
         let seriesListFilter = 'all';
         let isAdminInitialized = false;
+        let isContentSaveInProgress = false;
+        let isPremiumGrantInProgress = false;
+        const pendingCreateIds = {};
 
         const ADMIN_LOGIN_USERNAME = 'swamedi@';
         const ADMIN_LOGIN_PASSWORD = '2006216';
         const ADMIN_AUTH_STORAGE_KEY = 'swamedia_admin_authenticated';
+        const ALERT_SEEN_STORAGE_KEY = 'swamedia_admin1_seen_alerts';
 
         const formContainer = document.getElementById('form-container');
         const listContainer = document.getElementById('list-container');
@@ -216,6 +231,7 @@
         };
         const getTodayKey = () => new Date().toISOString().slice(0, 10);
         const getUserWatchAnalytics = (userId = '') => watchAnalyticsUsersCache.find(item => item.id === userId || item.userId === userId) || null;
+        const getUserDownloadAnalytics = (userId = '') => downloadAnalyticsUsersCache.find(item => item.id === userId || item.userId === userId) || null;
         const getRecentWatchedTitles = (analytics = null) => {
             if (!analytics?.history) return [];
             return Object.values(analytics.history)
@@ -223,9 +239,54 @@
                 .sort((a, b) => Number(b.watchedAt || 0) - Number(a.watchedAt || 0))
                 .slice(0, 3);
         };
+        const getRecentDownloadedTitles = (analytics = null) => {
+            if (!analytics?.history) return [];
+            return Object.values(analytics.history)
+                .filter(Boolean)
+                .sort((a, b) => Number(b.downloadedAt || 0) - Number(a.downloadedAt || 0))
+                .slice(0, 3);
+        };
+        const isUserBlocked = (user = {}) => user?.isBlocked === true || user?.blocked === true;
+        const formatTrackedEntryLabel = (entry = {}) => {
+            const baseTitle = entry.title || 'Untitled';
+            const seasonNumber = Number(entry.seasonNumber || 0);
+            const episodeNumber = Number(entry.episodeNumber || 0);
+            if (seasonNumber > 0 && episodeNumber > 0) return `${baseTitle} (S${seasonNumber} E${episodeNumber})`;
+            if (episodeNumber > 0) return `${baseTitle} (Episode ${episodeNumber})`;
+            return baseTitle;
+        };
         const getContentViewsToday = () => contentWatchAnalyticsCache.reduce((total, item) => total + Number(item?.daily?.[getTodayKey()] || 0), 0);
         const getSortedContentViewsByDay = () => [...contentWatchAnalyticsCache]
             .sort((a, b) => Number(b?.daily?.[getTodayKey()] || 0) - Number(a?.daily?.[getTodayKey()] || 0));
+        const getVisitEntriesByDay = () => [...visitAnalyticsDailyCache]
+            .sort((a, b) => String(b.id || '').localeCompare(String(a.id || '')));
+        const getUniqueVisitorsForDay = (dayKey = getTodayKey()) => {
+            const entry = visitAnalyticsDailyCache.find(item => item.id === dayKey);
+            return Object.keys(entry?.users || {}).length;
+        };
+        const generateCouponCodeValue = () => `SWA${Math.random().toString(36).slice(2, 6).toUpperCase()}${Date.now().toString().slice(-3)}`;
+        const getCouponScopeOptions = () => ([
+            { value: 'all', label: 'Full Premium' },
+            { value: 'movies_only', label: 'Movies Only' },
+            { value: 'series_only', label: 'Series Only' },
+            { value: 'adult_only', label: 'Wakubwa Tu Only' },
+            { value: 'xxx_only', label: 'SwaX Page Only' },
+            { value: 'connection_only', label: 'Connection Only' },
+            { value: 'content_only', label: 'Specific Movie / Series' }
+        ]);
+        const getCouponContentOptionsHtml = () => {
+            const allItems = [
+                ...moviesCache.map(item => ({ ...item, type: 'movie' })),
+                ...seriesCache.map(item => ({ ...item, type: 'series' })),
+                ...adultContentCache.map(item => ({ ...item, type: 'adult' })),
+                ...xxxContentCache.map(item => ({ ...item, type: 'xxx' })),
+                ...connectionContentCache.map(item => ({ ...item, type: 'connection' }))
+            ];
+            return allItems
+                .sort((a, b) => String(a.title || '').localeCompare(String(b.title || '')))
+                .map(item => `<option value="${item.type}::${item.id}">${escapeHtml(item.title || 'Untitled')} (${item.type})</option>`)
+                .join('');
+        };
 
         const getDisplayName = (view) => {
             const names = {
@@ -236,21 +297,117 @@
                 djgenres: 'DJ Genre',
                 adultContent: 'Wakubwa Tu Content',
                 connection: 'Connection Content',
-                xxx: 'XXX Content',
+                xxx: 'SwaX Content',
                 stories: 'Story',
                 'story-genres': 'Story Genre',
                 banners: 'Home Banner',
                 'series-banners': 'Series Banner',
                 'story-banners': 'Story Banner',
                 'connection-banners': 'Connection Banner',
-                'xxx-banners': 'XXX Banner',
+                'xxx-banners': 'SwaX Banner',
                 'swa-media-ads': 'SwaMedia Ad',
                 'update-ad': 'Update App Ad',
                 'feedback': 'Maoni',
-                subscriptions: 'Paid / Unpaid'
+                'junior-admin-control': 'Junior Admin Control',
+                'junior-admin-uploads': 'Junior Uploads',
+                subscriptions: 'Paid / Unpaid',
+                coupons: 'Coupons'
             };
             return names[view] || view;
         };
+
+        const getStoredAlertSeenState = () => {
+            try {
+                return JSON.parse(localStorage.getItem(ALERT_SEEN_STORAGE_KEY) || '{}');
+            } catch (error) {
+                console.error('Failed to parse alert seen state:', error);
+                return {};
+            }
+        };
+        const setStoredAlertSeenState = (state) => {
+            localStorage.setItem(ALERT_SEEN_STORAGE_KEY, JSON.stringify(state));
+        };
+        const getJuniorUploadItems = () => ([
+            ...moviesCache.filter(item => String(item.createdByAdminId || '') === 'junior_jaylan').map(item => ({ ...item, contentType: 'movies' })),
+            ...seriesCache.filter(item => String(item.createdByAdminId || '') === 'junior_jaylan').map(item => ({ ...item, contentType: 'series' }))
+        ]).sort((a, b) => Number(b.updatedAt || b.createdAt || b.timestamp || 0) - Number(a.updatedAt || a.createdAt || a.timestamp || 0));
+        const getLatestNotificationActivityAt = () => notificationsCache.reduce((latest, item) => {
+            const notification = normalizeNotificationItem(item);
+            const replyLatest = notification.replies.reduce((replyMax, reply) => Math.max(replyMax, Number(reply.time || 0)), 0);
+            return Math.max(latest, Number(notification.timestamp || 0), replyLatest);
+        }, 0);
+        const getLatestFeedbackActivityAt = () => feedbackCache.reduce((latest, item) => Math.max(
+            latest,
+            Number(item.timestamp || 0),
+            Number(item.repliedAt || 0)
+        ), 0);
+        const getLatestJuniorUploadActivityAt = () => getJuniorUploadItems().reduce((latest, item) => Math.max(
+            latest,
+            Number(item.updatedAt || 0),
+            Number(item.createdAt || 0),
+            Number(item.timestamp || 0)
+        ), 0);
+        const getLatestAlertTimestampForView = (view) => {
+            switch (view) {
+                case 'notifications': return getLatestNotificationActivityAt();
+                case 'feedback': return getLatestFeedbackActivityAt();
+                case 'junior-admin-uploads': return getLatestJuniorUploadActivityAt();
+                default: return 0;
+            }
+        };
+        const markAlertViewAsSeen = (view) => {
+            const latestTimestamp = getLatestAlertTimestampForView(view);
+            if (!latestTimestamp) return;
+            const nextState = {
+                ...getStoredAlertSeenState(),
+                [view]: latestTimestamp
+            };
+            setStoredAlertSeenState(nextState);
+            updateNavAlertDots();
+        };
+        const updateNavAlertDots = () => {
+            const seenState = getStoredAlertSeenState();
+            const alertViews = ['notifications', 'feedback', 'junior-admin-uploads'];
+            alertViews.forEach(view => {
+                const dot = document.getElementById(`${view}-alert-dot`);
+                if (!dot) return;
+                const latestTimestamp = getLatestAlertTimestampForView(view);
+                const seenTimestamp = Number(seenState[view] || 0);
+                dot.classList.toggle('hidden', latestTimestamp <= seenTimestamp || latestTimestamp === 0);
+            });
+        };
+
+        const juniorAdminControlTemplate = () => `
+            <h2 class="text-2xl font-bold mb-4">Junior Admin Control</h2>
+            <form id="junior-admin-control-form" class="space-y-4 bg-gray-900 p-6 rounded-lg">
+                <p class="text-slate-400 text-sm">Hapa admin1 anaweza ku-block au ku-unblock admin wa kawaida wa admin/admin.html.</p>
+                <div class="flex items-center justify-between gap-4 rounded-lg border border-gray-700 bg-black/40 p-4">
+                    <div>
+                        <label for="junior-admin-block-toggle" class="font-semibold text-lg">Block Regular Admin</label>
+                        <p class="text-sm text-slate-400 mt-1">Ikiwa imewashwa, admin wa kawaida hataweza kuingia kwenye panel yake.</p>
+                    </div>
+                    <div class="relative inline-block w-14 h-7 align-middle select-none">
+                        <input type="checkbox" id="junior-admin-block-toggle" class="toggle-checkbox absolute block w-7 h-7 rounded-full bg-white border-4 border-gray-600 appearance-none cursor-pointer"/>
+                        <label for="junior-admin-block-toggle" class="toggle-label block overflow-hidden h-7 rounded-full bg-gray-600 cursor-pointer"></label>
+                    </div>
+                </div>
+                <div>
+                    <label for="junior-admin-block-reason" class="${labelClass}">Reason</label>
+                    <textarea id="junior-admin-block-reason" class="${inputClass}" rows="3" placeholder="Andika sababu ya block/unblock"></textarea>
+                </div>
+                <p id="junior-admin-control-feedback" class="text-sm min-h-[20px] text-slate-400"></p>
+                <div class="pt-2">
+                    <button type="submit" class="${buttonClass}" id="junior-admin-control-submit-btn">Save Junior Admin Status</button>
+                </div>
+            </form>
+        `;
+
+        const juniorAdminUploadsTemplate = () => `
+            <div class="bg-gray-900 p-6 rounded-lg">
+                <h2 class="text-2xl font-bold text-white">Junior Admin Uploads</h2>
+                <p class="text-sm text-slate-400 mt-2">Hapa utaona movie na series zote zilizoongezwa na admin wa kawaida, pamoja na last login yake.</p>
+            </div>
+        `;
         
         const getCategoryOptions = (selectedCategory = "") => {
             let options = '<option value="">-- Select Category --</option>';
@@ -759,13 +916,20 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div><label class="${labelClass}">Title</label><input required id="title" class="${inputClass}" type="text"></div>
                         <div><label class="${labelClass}">Poster URL</label><input id="posterUrl" class="${inputClass}" type="url" placeholder="https://example.com/game-cover.jpg"></div>
+                        <div><label class="${labelClass}">Category</label><input id="gameCategory" class="${inputClass}" type="text" placeholder="Action, Sports, Adventure"></div>
                         <div><label class="${labelClass}">Genre</label><input id="genre" class="${inputClass}" type="text" placeholder="Action, Racing, Sports"></div>
                         <div><label class="${labelClass}">Platform</label><input id="platform" class="${inputClass}" type="text" placeholder="Android, iPhone, PC"></div>
+                        <div><label class="${labelClass}">Game Size</label><input id="gameSize" class="${inputClass}" type="text" placeholder="850 MB, 1.6 GB"></div>
                         <div><label class="${labelClass}">Year</label><input id="year" class="${inputClass}" type="number" placeholder="2026"></div>
                         <div><label class="${labelClass}">Rating</label><input id="rating" class="${inputClass}" type="text" placeholder="4.9"></div>
                         <div><label class="${labelClass}">Developer / Studio</label><input id="developer" class="${inputClass}" type="text" placeholder="EA Sports, Tencent"></div>
                         <div><label class="${labelClass}">Badge</label><input id="badge" class="${inputClass}" type="text" placeholder="Trending, Hot, Editor Pick"></div>
                         <div class="md:col-span-2"><label class="${labelClass}">Tags</label><input id="tags" class="${inputClass}" type="text" placeholder="multiplayer, offline, open world, esports"></div>
+                        <div class="md:col-span-2">
+                            <label class="${labelClass}">Game Password</label>
+                            <input id="gamePassword" class="${inputClass}" type="text" placeholder="Optional password kama game linahitaji unlock code">
+                            <p class="text-xs text-slate-400 mt-1">Acha wazi kama game halina password.</p>
+                        </div>
                         <div class="md:col-span-2"><label class="${labelClass}">Description</label><textarea id="description" class="${inputClass}" rows="4" placeholder="Short description for the SwaGames page"></textarea></div>
                     </div>
                 </fieldset>
@@ -840,6 +1004,26 @@
                             <label for="movie-of-the-week-toggle" class="toggle-label block overflow-hidden h-7 rounded-full bg-gray-600 cursor-pointer"></label>
                         </div>
                     </div>
+                    <div class="flex items-center justify-between pt-4 border-t border-gray-800">
+                        <div>
+                            <label for="free-access-toggle" class="font-semibold text-lg">Free Access</label>
+                            <p class="text-slate-400 text-sm">If ON, users can watch this content without premium.</p>
+                        </div>
+                        <div class="relative inline-block w-14 h-7 align-middle select-none">
+                            <input type="checkbox" name="free-access-toggle" id="free-access-toggle" class="toggle-checkbox absolute block w-7 h-7 rounded-full bg-white border-4 border-gray-600 appearance-none cursor-pointer"/>
+                            <label for="free-access-toggle" class="toggle-label block overflow-hidden h-7 rounded-full bg-gray-600 cursor-pointer"></label>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between pt-4 border-t border-gray-800">
+                        <div>
+                            <label for="home-free-toggle" class="font-semibold text-lg">Home Free Scroll</label>
+                            <p class="text-slate-400 text-sm">If ON, itaonekana kwenye scrollable ya free movies/series home page.</p>
+                        </div>
+                        <div class="relative inline-block w-14 h-7 align-middle select-none">
+                            <input type="checkbox" name="home-free-toggle" id="home-free-toggle" class="toggle-checkbox absolute block w-7 h-7 rounded-full bg-white border-4 border-gray-600 appearance-none cursor-pointer"/>
+                            <label for="home-free-toggle" class="toggle-label block overflow-hidden h-7 rounded-full bg-gray-600 cursor-pointer"></label>
+                        </div>
+                    </div>
                 </fieldset>
                 <fieldset class="${fieldsetStyles}">
                     <legend class="${legendStyles}">Metadata</legend>
@@ -904,6 +1088,26 @@
                         <div class="relative inline-block w-14 h-7 align-middle select-none">
                             <input type="checkbox" name="movie-of-the-week-toggle" id="movie-of-the-week-toggle" class="toggle-checkbox absolute block w-7 h-7 rounded-full bg-white border-4 border-gray-600 appearance-none cursor-pointer"/>
                             <label for="movie-of-the-week-toggle" class="toggle-label block overflow-hidden h-7 rounded-full bg-gray-600 cursor-pointer"></label>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between pt-4 border-t border-gray-800">
+                        <div>
+                            <label for="free-access-toggle" class="font-semibold text-lg">Free Access</label>
+                            <p class="text-slate-400 text-sm">If ON, all episodes can be watched without premium.</p>
+                        </div>
+                        <div class="relative inline-block w-14 h-7 align-middle select-none">
+                            <input type="checkbox" name="free-access-toggle" id="free-access-toggle" class="toggle-checkbox absolute block w-7 h-7 rounded-full bg-white border-4 border-gray-600 appearance-none cursor-pointer"/>
+                            <label for="free-access-toggle" class="toggle-label block overflow-hidden h-7 rounded-full bg-gray-600 cursor-pointer"></label>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between pt-4 border-t border-gray-800">
+                        <div>
+                            <label for="home-free-toggle" class="font-semibold text-lg">Home Free Scroll</label>
+                            <p class="text-slate-400 text-sm">If ON, itaonekana kwenye scrollable ya free movies/series home page.</p>
+                        </div>
+                        <div class="relative inline-block w-14 h-7 align-middle select-none">
+                            <input type="checkbox" name="home-free-toggle" id="home-free-toggle" class="toggle-checkbox absolute block w-7 h-7 rounded-full bg-white border-4 border-gray-600 appearance-none cursor-pointer"/>
+                            <label for="home-free-toggle" class="toggle-label block overflow-hidden h-7 rounded-full bg-gray-600 cursor-pointer"></label>
                         </div>
                     </div>
                  </fieldset>
@@ -1096,7 +1300,7 @@
                                 <option value="series">Series</option>
                                 <option value="adultContent">Wakubwa Tu</option>
                                 <option value="connection">Connection</option>
-                                <option value="xxx">XXX</option>
+                                <option value="xxx">SwaX</option>
                             </select>
                         </div>
                     </div>
@@ -1178,6 +1382,103 @@
             </form>
         `;
 
+        const couponManagementFormTemplate = () => `
+             <h2 class="text-2xl font-bold mb-4">Coupon Codes</h2>
+             <form id="coupon-form" class="space-y-4 bg-gray-900 p-6 rounded-lg">
+                <div class="flex items-start justify-between gap-4">
+                    <div>
+                        <h3 class="text-xl font-bold text-white">Create Coupon Code</h3>
+                        <p class="text-sm text-slate-400 mt-1">Admin anaweza kutengeneza public/private coupon, kuweka siku za access, package scope, na movie/series maalum.</p>
+                    </div>
+                    <button type="button" id="generate-coupon-btn" class="${subButtonClass}">Auto Code</button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="coupon-code" class="${labelClass}">Coupon Code</label>
+                        <input id="coupon-code" class="${inputClass}" type="text" placeholder="Mfano: SWA123ABC">
+                    </div>
+                    <div>
+                        <label for="coupon-title" class="${labelClass}">Offer Name</label>
+                        <input id="coupon-title" class="${inputClass}" type="text" placeholder="Mfano: 1 Week Bonus">
+                    </div>
+                    <div>
+                        <label for="coupon-plan-select" class="${labelClass}">Plan</label>
+                        <select id="coupon-plan-select" class="${inputClass}">
+                            <option value="two_hours">500 - 2 Hours</option>
+                            <option value="six_hours">1000 - 6 Hours</option>
+                            <option value="one_day">2000 - 1 Day</option>
+                            <option value="one_week">3000 - 1 Week</option>
+                            <option value="two_weeks">5000 - 2 Weeks</option>
+                            <option value="one_month">9000 - 1 Month</option>
+                            <option value="custom_days">Custom Days</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="coupon-custom-days" class="${labelClass}">Custom Days</label>
+                        <input id="coupon-custom-days" class="${inputClass}" type="number" min="1" placeholder="Use only for custom">
+                    </div>
+                    <div>
+                        <label for="coupon-scope" class="${labelClass}">Access Scope</label>
+                        <select id="coupon-scope" class="${inputClass}">
+                            ${getCouponScopeOptions().map(option => `<option value="${option.value}">${option.label}</option>`).join('')}
+                        </select>
+                    </div>
+                    <div>
+                        <label for="coupon-access-mode" class="${labelClass}">Access Mode</label>
+                        <select id="coupon-access-mode" class="${inputClass}">
+                            <option value="watch_download">Watch + Download</option>
+                            <option value="watch_only">Watch Only</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="coupon-visibility" class="${labelClass}">Visibility</label>
+                        <select id="coupon-visibility" class="${inputClass}">
+                            <option value="public">Public</option>
+                            <option value="private">Private</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="coupon-user-id" class="${labelClass}">Private User ID</label>
+                        <input id="coupon-user-id" class="${inputClass}" type="text" placeholder="Weka user ID kama ni private">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label for="coupon-content-target" class="${labelClass}">Specific Movie / Series</label>
+                        <select id="coupon-content-target" class="${inputClass}">
+                            <option value="">Choose content if scope ni Specific Movie / Series</option>
+                            ${getCouponContentOptionsHtml()}
+                        </select>
+                    </div>
+                    <div>
+                        <label for="coupon-expiry" class="${labelClass}">Expire At</label>
+                        <input id="coupon-expiry" class="${inputClass}" type="datetime-local">
+                    </div>
+                    <div class="flex items-center justify-between rounded-lg border border-gray-700 p-3">
+                        <div>
+                            <label for="coupon-expire-on-complete" class="font-semibold text-base">Expire After Completion</label>
+                            <p class="text-slate-400 text-sm">Kwa content maalum, code iishe user akimaliza kuwatch movie/episodes zote.</p>
+                        </div>
+                        <div class="relative inline-block w-14 h-7 align-middle select-none">
+                            <input type="checkbox" name="coupon-expire-on-complete" id="coupon-expire-on-complete" class="toggle-checkbox absolute block w-7 h-7 rounded-full bg-white border-4 border-gray-600 appearance-none cursor-pointer" checked/>
+                            <label for="coupon-expire-on-complete" class="toggle-label block overflow-hidden h-7 rounded-full bg-gray-600 cursor-pointer"></label>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between rounded-lg border border-gray-700 p-3">
+                        <div>
+                            <label for="coupon-active" class="font-semibold text-base">Active</label>
+                            <p class="text-slate-400 text-sm">Admin anaweza kuwasha au kuzima code.</p>
+                        </div>
+                        <div class="relative inline-block w-14 h-7 align-middle select-none">
+                            <input type="checkbox" name="coupon-active" id="coupon-active" class="toggle-checkbox absolute block w-7 h-7 rounded-full bg-white border-4 border-gray-600 appearance-none cursor-pointer" checked/>
+                            <label for="coupon-active" class="toggle-label block overflow-hidden h-7 rounded-full bg-gray-600 cursor-pointer"></label>
+                        </div>
+                    </div>
+                </div>
+                <p id="coupon-form-error" class="text-sm min-h-[20px] text-red-400"></p>
+                <div class="pt-2"><button type="submit" class="${buttonClass}" id="coupon-submit-btn">Save Coupon</button></div>
+                <div id="coupon-list" class="space-y-3 pt-4 border-t border-gray-800"></div>
+             </form>
+        `;
+
         const premiumFormTemplate = () => `
              <h2 class="text-2xl font-bold mb-4">Premium Settings</h2>
              <form id="premium-form" class="space-y-4 bg-gray-900 p-6 rounded-lg">
@@ -1208,9 +1509,17 @@
                     <input id="user-uid" required class="${inputClass}" type="text" placeholder="Enter the user's unique ID to verify">
                 </div>
                 <div>
+                    <label for="premium-action-select" class="${labelClass}">Action</label>
+                    <select id="premium-action-select" class="${inputClass}">
+                        <option value="add">Add plan days/hours</option>
+                        <option value="remove">Reduce plan days/hours</option>
+                    </select>
+                </div>
+                <div>
                     <label for="premium-plan-select" class="${labelClass}">Premium Plan</label>
                     <select id="premium-plan-select" class="${inputClass}">
-                        <option value="two_seconds">1000 - 2 Seconds</option>
+                        <option value="two_hours">500 - 2 Hours</option>
+                        <option value="six_hours">1000 - 6 Hours</option>
                         <option value="one_day">2000 - 1 Day</option>
                         <option value="one_week">3000 - 1 Week</option>
                         <option value="two_weeks">5000 - 2 Weeks</option>
@@ -1228,6 +1537,40 @@
                 </div>
             </form>
         `;
+
+        const loadJuniorAdminControlSettings = async () => {
+            const snapshot = await get(ref(db, 'settings/adminControl'));
+            adminControlSettings = snapshot.exists() ? { juniorBlocked: false, ...snapshot.val() } : { juniorBlocked: false };
+            const toggle = document.getElementById('junior-admin-block-toggle');
+            const reason = document.getElementById('junior-admin-block-reason');
+            if (toggle) toggle.checked = adminControlSettings.juniorBlocked === true;
+            if (reason) reason.value = adminControlSettings.reason || '';
+        };
+
+        const handleJuniorAdminControlSave = async (e) => {
+            e.preventDefault();
+            const submitBtn = document.getElementById('junior-admin-control-submit-btn');
+            const feedbackEl = document.getElementById('junior-admin-control-feedback');
+            const blocked = document.getElementById('junior-admin-block-toggle')?.checked === true;
+            const reason = (document.getElementById('junior-admin-block-reason')?.value || '').trim();
+
+            setButtonLoading(submitBtn, true, 'Saving...', 'Save Junior Admin Status');
+            try {
+                adminControlSettings = {
+                    juniorBlocked: blocked,
+                    reason,
+                    updatedAt: Date.now(),
+                    updatedBy: 'admin1'
+                };
+                await set(ref(db, 'settings/adminControl'), adminControlSettings);
+                if (feedbackEl) feedbackEl.textContent = blocked ? 'Admin wa kawaida ame-blockiwa.' : 'Admin wa kawaida ameruhusiwa tena.';
+            } catch (error) {
+                console.error('Failed to save junior admin control:', error);
+                if (feedbackEl) feedbackEl.textContent = 'Imeshindikana kuhifadhi mabadiliko.';
+            } finally {
+                setButtonLoading(submitBtn, false, '', 'Save Junior Admin Status');
+            }
+        };
         
         const pagesFormTemplate = () => `
              <h2 class="text-2xl font-bold mb-4">Edit Static Pages</h2>
@@ -1305,7 +1648,7 @@
                  case 'connection':
                     formContainer.innerHTML = videoContentFormTemplate('Connection Content'); break;
                 case 'xxx':
-                    formContainer.innerHTML = videoContentFormTemplate('XXX Content'); break;
+                    formContainer.innerHTML = videoContentFormTemplate('SwaX Content'); break;
                 case 'genres': formContainer.innerHTML = genreFormTemplate("Genre"); break;
                 case 'djgenres': formContainer.innerHTML = genreFormTemplate("DJ Genre"); break;
                 case 'stories': formContainer.innerHTML = storyFormTemplate(); break;
@@ -1345,6 +1688,14 @@
                 case 'users': 
                     formContainer.innerHTML = userManagementFormTemplate(); 
                     break;
+                case 'junior-admin-control':
+                    formContainer.innerHTML = juniorAdminControlTemplate();
+                    listViewContainer.style.display = 'none';
+                    await loadJuniorAdminControlSettings();
+                    break;
+                case 'junior-admin-uploads':
+                    formContainer.innerHTML = juniorAdminUploadsTemplate();
+                    break;
                 case 'subscriptions':
                     formContainer.innerHTML = userManagementFormTemplate();
                     break;
@@ -1352,6 +1703,12 @@
                     formContainer.innerHTML = premiumFormTemplate();
                     listViewContainer.style.display = 'none';
                     await loadPremiumSettings();
+                    break;
+                case 'coupons':
+                    formContainer.innerHTML = couponManagementFormTemplate();
+                    listViewContainer.style.display = 'none';
+                    couponsCache = await fetchDataAsArray('settings/coupons');
+                    renderCouponList();
                     break;
                 case 'pages':
                     formContainer.innerHTML = pagesFormTemplate();
@@ -1376,9 +1733,15 @@
             document.getElementById('advertisement-form')?.addEventListener('submit', handleAdvertisementSave);
             document.getElementById('update-ad-form')?.addEventListener('submit', handleUpdateAdSave);
             document.getElementById('premium-form')?.addEventListener('submit', handlePremiumSave);
+            document.getElementById('coupon-form')?.addEventListener('submit', handleCouponSave);
             document.getElementById('pages-form')?.addEventListener('submit', handlePagesSave);
             document.getElementById('social-links-form')?.addEventListener('submit', handleSocialLinksSave);
             document.getElementById('user-premium-form')?.addEventListener('submit', handleGrantPremium);
+            document.getElementById('junior-admin-control-form')?.addEventListener('submit', handleJuniorAdminControlSave);
+            document.getElementById('generate-coupon-btn')?.addEventListener('click', () => {
+                const codeInput = document.getElementById('coupon-code');
+                if (codeInput) codeInput.value = generateCouponCodeValue();
+            });
             document.getElementById('cancel-btn')?.addEventListener('click', () => { editId=null; renderForm(); });
             document.getElementById('add-part-btn')?.addEventListener('click', () => addMoviePart());
             document.getElementById('add-season-btn')?.addEventListener('click', () => addSeason());
@@ -1765,11 +2128,12 @@
 
         const handleFormSubmit = async (e) => {
             e.preventDefault();
+            if (isContentSaveInProgress) return;
+            isContentSaveInProgress = true;
             const submitBtn = document.getElementById('submit-btn');
             setButtonLoading(submitBtn, true, 'Saving...', `Save ${getDisplayName(currentView)}`);
-            
-            const id = editId || push(ref(db, currentView)).key;
             let data = {};
+            let writeSucceeded = false;
             const titleInput = document.getElementById('title');
             const djInput = document.getElementById('dj');
             const yearInput = document.getElementById('year');
@@ -1784,7 +2148,13 @@
             if (duplicateMessage) {
                 alert(duplicateMessage);
                 setButtonLoading(submitBtn, false, '', `Save ${getDisplayName(currentView)}`);
+                isContentSaveInProgress = false;
                 return;
+            }
+
+            const id = editId || pendingCreateIds[currentView] || push(ref(db, currentView)).key;
+            if (!editId) {
+                pendingCreateIds[currentView] = id;
             }
             
             try {
@@ -1819,6 +2189,9 @@
                             dj: document.getElementById('dj').value,
                             parts: parts,
                             isMovieOfTheWeek: document.getElementById('movie-of-the-week-toggle').checked,
+                            freeWatch: document.getElementById('free-access-toggle')?.checked === true,
+                            isFreeAccess: document.getElementById('free-access-toggle')?.checked === true,
+                            isHomeFreeSpotlight: document.getElementById('home-free-toggle')?.checked === true,
                             type: currentView === 'movies' ? 'movie' : 'adult',
                             likes: existingMovieData.likes || 0,
                             dislikes: existingMovieData.dislikes || 0,
@@ -1876,6 +2249,9 @@
                             dj: document.getElementById('dj').value,
                             seasons: seasons,
                             isMovieOfTheWeek: document.getElementById('movie-of-the-week-toggle').checked,
+                            freeWatch: document.getElementById('free-access-toggle')?.checked === true,
+                            isFreeAccess: document.getElementById('free-access-toggle')?.checked === true,
+                            isHomeFreeSpotlight: document.getElementById('home-free-toggle')?.checked === true,
                             type: 'series',
                             likes: existingSeriesData.likes || 0,
                             dislikes: existingSeriesData.dislikes || 0,
@@ -1891,13 +2267,17 @@
                         data = {
                             title: document.getElementById('title').value,
                             posterUrl: document.getElementById('posterUrl').value,
+                            category: document.getElementById('gameCategory').value,
                             genre: document.getElementById('genre').value,
                             platform: document.getElementById('platform').value,
+                            size: document.getElementById('gameSize').value,
                             year: document.getElementById('year').value,
                             rating: document.getElementById('rating').value,
                             developer: document.getElementById('developer').value,
                             badge: document.getElementById('badge').value,
                             tags: document.getElementById('tags').value,
+                            password: document.getElementById('gamePassword').value,
+                            hasPassword: Boolean((document.getElementById('gamePassword').value || '').trim()),
                             description: document.getElementById('description').value,
                             playUrl: document.getElementById('playUrl').value,
                             downloadUrl: document.getElementById('downloadUrl').value,
@@ -1992,14 +2372,28 @@
                 if (!currentView.includes('banner') && currentView !== 'genres' && currentView !== 'story-genres' && currentView !== 'djgenres' && currentView !== 'swa-media-ads') {
                     await set(ref(db, `${currentView}/${id}`), data);
                 }
+                writeSucceeded = true;
+                if (!editId) {
+                    delete pendingCreateIds[currentView];
+                }
+                alert(`${getDisplayName(currentView)} saved successfully.`);
             } catch (error) {
                 console.error("Save error:", error);
-                alert("An error occurred while saving.");
+                alert(`An error occurred while saving: ${error.message || 'Unknown error'}`);
             } finally {
                 setButtonLoading(submitBtn, false, '', `Save ${getDisplayName(currentView)}`);
+                isContentSaveInProgress = false;
+            }
+
+            if (writeSucceeded) {
                 editId = null;
-                await fetchInitialData();
-                renderForm();
+                try {
+                    await fetchInitialData();
+                    renderForm();
+                } catch (refreshError) {
+                    console.error('Refresh after save failed:', refreshError);
+                    alert('Content saved successfully, but admin list failed to refresh. Please reload once to see the latest data.');
+                }
             }
         };
 
@@ -2044,6 +2438,127 @@
             }
         };
 
+        const renderCouponList = () => {
+            const listEl = document.getElementById('coupon-list');
+            if (!listEl) return;
+            const sortedCoupons = [...couponsCache]
+                .sort((a, b) => Number(b.createdAt || 0) - Number(a.createdAt || 0))
+                .slice(0, 10);
+            listEl.innerHTML = sortedCoupons.length > 0 ? sortedCoupons.map(item => {
+                const isExpired = Number(item.expiresAt || 0) > 0 && Number(item.expiresAt) < Date.now();
+                return `
+                    <div class="rounded-lg border border-gray-800 bg-black/20 p-4">
+                        <div class="flex flex-wrap items-center justify-between gap-3">
+                            <div>
+                                <p class="font-semibold text-white">${escapeHtml(item.code || item.id || 'Coupon')}</p>
+                                <p class="text-xs text-slate-400 mt-1">${escapeHtml(item.title || item.planLabel || 'Offer')}</p>
+                            </div>
+                            <div class="text-right text-xs space-y-1">
+                                <p class="${item.usedBy ? 'text-yellow-300' : 'text-green-400'}">${item.usedBy ? 'Used' : 'Unused'}</p>
+                                <p class="${isExpired ? 'text-red-400' : 'text-slate-400'}">${item.expiresAt ? new Date(item.expiresAt).toLocaleString() : 'No expiry'}</p>
+                            </div>
+                        </div>
+                        <div class="mt-3 text-xs text-slate-400 space-y-1">
+                            <p>Type: <span class="text-slate-200">${escapeHtml(item.visibility || 'public')}</span></p>
+                            <p>Plan: <span class="text-slate-200">${escapeHtml(item.planLabel || 'Offer')}</span></p>
+                            <p>Scope: <span class="text-slate-200">${escapeHtml(item.scope || 'all')}</span></p>
+                            <p>Access: <span class="text-slate-200">${escapeHtml(item.accessMode || 'watch_download')}</span></p>
+                            <p>Target: <span class="text-slate-200">${escapeHtml(item.contentTitle || item.contentId || 'All content')}</span></p>
+                            <p>Assigned User: <span class="text-slate-200 font-mono">${escapeHtml(item.assignedUserId || 'Any user')}</span></p>
+                            <p>Used By: <span class="text-slate-200 font-mono">${escapeHtml(item.usedBy || 'Not yet')}</span></p>
+                        </div>
+                    </div>
+                `;
+            }).join('') : '<p class="text-sm text-slate-500">No coupons generated yet.</p>';
+        };
+
+        const handleCouponSave = async (e) => {
+            e.preventDefault();
+            const submitBtn = document.getElementById('coupon-submit-btn');
+            const errorEl = document.getElementById('coupon-form-error');
+            setButtonLoading(submitBtn, true, 'Saving...', 'Save Coupon');
+            errorEl.textContent = '';
+
+            const code = (document.getElementById('coupon-code')?.value || '').trim().toUpperCase();
+            const title = (document.getElementById('coupon-title')?.value || '').trim();
+            const selectedPlanKey = document.getElementById('coupon-plan-select')?.value || 'one_week';
+            const customDays = parseInt(document.getElementById('coupon-custom-days')?.value || '0', 10);
+            const scope = document.getElementById('coupon-scope')?.value || 'all';
+            const accessMode = document.getElementById('coupon-access-mode')?.value || 'watch_download';
+            const visibility = document.getElementById('coupon-visibility')?.value || 'public';
+            const assignedUserId = (document.getElementById('coupon-user-id')?.value || '').trim();
+            const contentTarget = document.getElementById('coupon-content-target')?.value || '';
+            const expiryRaw = document.getElementById('coupon-expiry')?.value || '';
+            const expireOnComplete = document.getElementById('coupon-expire-on-complete')?.checked === true;
+            const isActive = document.getElementById('coupon-active')?.checked !== false;
+            const selectedPlan = PREMIUM_PLAN_PRESETS[selectedPlanKey] || PREMIUM_PLAN_PRESETS.one_week;
+            const durationMs = selectedPlanKey === 'custom_days'
+                ? (Number.isFinite(customDays) && customDays > 0 ? customDays * 24 * 60 * 60 * 1000 : 0)
+                : Number(selectedPlan.durationMs || 0);
+            const durationLabel = selectedPlanKey === 'custom_days' ? `${customDays} Days` : selectedPlan.durationLabel;
+            const expiresAt = expiryRaw ? new Date(expiryRaw).getTime() : 0;
+            const [contentType = '', contentId = ''] = contentTarget.split('::');
+            const targetItem = [...moviesCache, ...seriesCache, ...adultContentCache, ...xxxContentCache, ...connectionContentCache]
+                .find(item => item.id === contentId);
+
+            if (!code) {
+                errorEl.textContent = 'Andika coupon code.';
+                setButtonLoading(submitBtn, false, '', 'Save Coupon');
+                return;
+            }
+            if (durationMs <= 0) {
+                errorEl.textContent = 'Chagua offer sahihi ya coupon.';
+                setButtonLoading(submitBtn, false, '', 'Save Coupon');
+                return;
+            }
+            if (visibility === 'private' && !assignedUserId) {
+                errorEl.textContent = 'Kwa private coupon weka user ID.';
+                setButtonLoading(submitBtn, false, '', 'Save Coupon');
+                return;
+            }
+            if (scope === 'content_only' && (!contentType || !contentId)) {
+                errorEl.textContent = 'Kwa specific movie/series chagua content moja.';
+                setButtonLoading(submitBtn, false, '', 'Save Coupon');
+                return;
+            }
+
+            try {
+                await set(ref(db, `settings/coupons/${code}`), {
+                    code,
+                    title,
+                    planKey: selectedPlanKey,
+                    planLabel: durationLabel,
+                    planAmount: Number(selectedPlan.amount || 0),
+                    durationMs,
+                    scope,
+                    accessMode,
+                    contentId: scope === 'content_only' ? contentId : '',
+                    contentType: scope === 'content_only' ? contentType : '',
+                    contentTitle: scope === 'content_only' ? (targetItem?.title || '') : '',
+                    expireOnComplete: scope === 'content_only' ? expireOnComplete : false,
+                    visibility,
+                    assignedUserId: visibility === 'private' ? assignedUserId : '',
+                    expiresAt,
+                    isActive,
+                    createdAt: Date.now(),
+                    usedBy: '',
+                    usedAt: 0,
+                    usedByLabel: ''
+                });
+                alert('Coupon saved successfully!');
+                couponsCache = await fetchDataAsArray('settings/coupons');
+                renderCouponList();
+                e.target.reset();
+                const activeToggle = document.getElementById('coupon-active');
+                if (activeToggle) activeToggle.checked = true;
+            } catch (err) {
+                console.error('Failed to save coupon:', err);
+                errorEl.textContent = 'Failed to save coupon.';
+            } finally {
+                setButtonLoading(submitBtn, false, '', 'Save Coupon');
+            }
+        };
+
         const handleSocialLinksSave = async(e) => {
             e.preventDefault();
             const submitBtn = document.getElementById('submit-btn');
@@ -2068,12 +2583,15 @@
 
         const handleGrantPremium = async(e) => {
              e.preventDefault();
+             if (isPremiumGrantInProgress) return;
+             isPremiumGrantInProgress = true;
              const submitBtn = document.getElementById('submit-btn');
              const errorEl = document.getElementById('user-form-error');
              setButtonLoading(submitBtn, true, 'Processing...', 'Grant Premium Access');
              errorEl.textContent = '';
 
              const userId = document.getElementById('user-uid').value.trim();
+             const actionType = document.getElementById('premium-action-select').value;
              const selectedPlanKey = document.getElementById('premium-plan-select').value;
              const customDays = parseInt(document.getElementById('premium-days').value, 10);
              const selectedPlan = PREMIUM_PLAN_PRESETS[selectedPlanKey] || PREMIUM_PLAN_PRESETS.custom_days;
@@ -2086,6 +2604,7 @@
              if (!userId || durationMs <= 0) {
                  errorEl.textContent = 'Please enter a valid User ID and select a valid premium plan.';
                  setButtonLoading(submitBtn, false, '', 'Grant Premium Access');
+                 isPremiumGrantInProgress = false;
                  return;
              }
 
@@ -2100,18 +2619,35 @@
                 const userData = userSnap.val();
                 const now = Date.now();
                 const currentExpiry = (userData.premiumExpiry && userData.premiumExpiry > now) ? userData.premiumExpiry : now;
-                const newExpiry = currentExpiry + durationMs;
+                const actionDirection = actionType === 'remove' ? -1 : 1;
+                const proposedExpiry = currentExpiry + (durationMs * actionDirection);
+                const newExpiry = Math.max(0, proposedExpiry);
+                const isPaid = newExpiry > now;
+                const updatedDaysRemaining = isPaid
+                    ? Math.max(0, Math.ceil((newExpiry - now) / (24 * 60 * 60 * 1000)))
+                    : 0;
+                const updatedPlanLabel = isPaid
+                    ? (actionType === 'remove' ? (userData.subscriptionPlanLabel || durationLabel) : durationLabel)
+                    : 'Expired';
+                const updatedAmount = actionType === 'remove'
+                    ? Number(userData.subscriptionAmount || 0)
+                    : amount;
+                const lastPremiumPaymentAt = actionType === 'remove'
+                    ? Number(userData.lastPremiumPaymentAt || now)
+                    : now;
 
                 await update(userRef, {
                     premiumExpiry: newExpiry,
-                    subscriptionStatus: 'paid',
-                    subscriptionPlanLabel: durationLabel,
-                    subscriptionAmount: amount,
-                    lastPremiumPaymentAt: now,
-                    daysRemaining: Math.max(0, Math.ceil((newExpiry - now) / (24 * 60 * 60 * 1000)))
+                    subscriptionStatus: isPaid ? 'paid' : 'unpaid',
+                    subscriptionPlanLabel: updatedPlanLabel,
+                    subscriptionAmount: updatedAmount,
+                    lastPremiumPaymentAt: lastPremiumPaymentAt,
+                    daysRemaining: updatedDaysRemaining
                 });
 
-                alert(`Success! User ${userId} has been granted ${durationLabel} of premium. New expiry is ${new Date(newExpiry).toLocaleString()}.`);
+                const actionMessage = actionType === 'remove' ? 'reduced by' : 'granted';
+                const expiryText = newExpiry > 0 ? new Date(newExpiry).toLocaleString() : 'Expired';
+                alert(`Success! User ${userId} has been ${actionMessage} ${durationLabel}. New expiry is ${expiryText}.`);
                 e.target.reset();
                 renderList(currentView);
 
@@ -2120,6 +2656,7 @@
                 errorEl.textContent = err.message;
              } finally {
                 setButtonLoading(submitBtn, false, '', 'Grant Premium Access');
+                isPremiumGrantInProgress = false;
              }
         };
         
@@ -2172,6 +2709,8 @@
                                     ${item.category ? `<span><i class="fas fa-tag w-4 mr-1 text-slate-500"></i>${item.category}</span>` : ''}
                                     ${item.genre ? `<span><i class="fas fa-gamepad w-4 mr-1 text-slate-500"></i>${item.genre}</span>` : ''}
                                     ${item.platform ? `<span><i class="fas fa-mobile-screen w-4 mr-1 text-slate-500"></i>${item.platform}</span>` : ''}
+                                    ${item.size ? `<span><i class="fas fa-hard-drive w-4 mr-1 text-slate-500"></i>${item.size}</span>` : ''}
+                                    ${(item.hasPassword || item.password) ? `<span><i class="fas fa-lock w-4 mr-1 text-slate-500"></i>Password Set</span>` : ''}
                                     ${item.dj ? `<span><i class="fas fa-headphones w-4 mr-1 text-slate-500"></i>${item.dj}</span>` : ''}
                                 </div>
                                 <div class="mt-2">${item.isPublished !== undefined ? subtext : ''}</div>
@@ -2189,8 +2728,11 @@
                     const isPremium = item.premiumExpiry && item.premiumExpiry > now;
                     const hasRewardAccess = item.rewardAccessExpiry && item.rewardAccessExpiry > now;
                     const userAnalytics = getUserWatchAnalytics(item.id || item.uid);
+                    const userDownloadAnalytics = getUserDownloadAnalytics(item.id || item.uid);
                     const watchedToday = Number(userAnalytics?.daily?.[getTodayKey()] || 0);
                     const recentWatched = getRecentWatchedTitles(userAnalytics);
+                    const downloadedToday = Number(userDownloadAnalytics?.daily?.[getTodayKey()] || 0);
+                    const recentDownloaded = getRecentDownloadedTitles(userDownloadAnalytics);
                     const rewardExpiryText = hasRewardAccess ? new Date(item.rewardAccessExpiry).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) : 'Inactive';
                     let premiumStatus = '';
                     if (isPremium) {
@@ -2219,11 +2761,38 @@
                                     <p>Points: <span class="text-pink-400 font-semibold">${Number(item.rewardPoints || 0)}</span> | Qualified invites: <span class="text-blue-400 font-semibold">${Number(item.successfulReferralPurchases || 0)}</span></p>
                                     <p>Reward access: <span class="${hasRewardAccess ? 'text-green-400' : 'text-slate-500'}">${rewardExpiryText}</span></p>
                                     <p>Views today: <span class="text-cyan-300 font-semibold">${watchedToday}</span></p>
-                                    <p>Last watched: <span class="text-slate-200">${recentWatched.length > 0 ? escapeHtml(recentWatched.map(entry => entry.title || 'Untitled').join(', ')) : 'No watch history yet'}</span></p>
+                                    <p>Downloads today: <span class="text-emerald-300 font-semibold">${downloadedToday}</span></p>
+                                    <p>Last watched: <span class="text-slate-200">${recentWatched.length > 0 ? escapeHtml(recentWatched.map(formatTrackedEntryLabel).join(', ')) : 'No watch history yet'}</span></p>
+                                    <p>Last downloaded: <span class="text-slate-200">${recentDownloaded.length > 0 ? escapeHtml(recentDownloaded.map(formatTrackedEntryLabel).join(', ')) : 'No download history yet'}</span></p>
                                 </div>
                             </div>
                             <div class="flex flex-col space-y-2 flex-shrink-0">
                                 <button data-id="${item.id}" class="edit-btn ${subButtonClass} w-full px-4">Manage</button>
+                                <button data-id="${item.id}" class="block-user-btn ${subButtonClass} ${isUserBlocked(item) ? 'bg-emerald-700 hover:bg-emerald-600' : 'bg-yellow-700 hover:bg-yellow-600'} w-full px-4">${isUserBlocked(item) ? 'Unblock User' : 'Block User'}</button>
+                                <button data-id="${item.id}" class="delete-btn ${subButtonClass} bg-red-800/80 hover:bg-red-700 w-full px-4">Delete Account</button>
+                            </div>
+                        </div>
+                    `;
+                case 'junior-admin-uploads':
+                    const uploadDate = new Date(item.createdAt || item.updatedAt || item.timestamp || 0).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+                    const uploadTypeLabel = item.contentType === 'series' ? 'Series' : 'Movie';
+                    return `
+                        <div class="flex items-start gap-4 w-full">
+                            <img src="${item.posterUrl || ''}" class="w-16 h-24 object-cover rounded flex-shrink-0 bg-gray-700" onerror="this.style.display='none'">
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center gap-2 flex-wrap">
+                                    <p class="font-bold text-lg text-slate-100 truncate" title="${title}">${title}</p>
+                                    <span class="text-xs px-2 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-300">${uploadTypeLabel}</span>
+                                </div>
+                                <div class="text-sm text-slate-400 mt-1 flex items-center gap-x-4 gap-y-1 flex-wrap">
+                                    <span><i class="fas fa-calendar-alt w-4 mr-1 text-slate-500"></i>${uploadDate}</span>
+                                    ${item.category ? `<span><i class="fas fa-tag w-4 mr-1 text-slate-500"></i>${item.category}</span>` : ''}
+                                    ${item.genre ? `<span><i class="fas fa-layer-group w-4 mr-1 text-slate-500"></i>${item.genre}</span>` : ''}
+                                </div>
+                                <div class="mt-2 text-xs text-slate-500 font-mono">${item.id}</div>
+                            </div>
+                            <div class="flex flex-col space-y-2 flex-shrink-0">
+                                <button data-id="${item.id}" data-content-type="${item.contentType}" class="junior-upload-delete-btn ${subButtonClass} bg-red-800/80 hover:bg-red-700 w-full px-4">Delete</button>
                             </div>
                         </div>
                     `;
@@ -2349,9 +2918,39 @@
                     case 'genres': renderListItems(await fetchDataAsArray('categories'), view); break;
                     case 'djgenres': renderListItems(await fetchDataAsArray('djgenres'), view); break;
                     case 'story-genres': renderListItems(await fetchDataAsArray('story-genres'), view); break;
-                    case 'notifications': renderListItems(await fetchDataAsArray('notifications'), view); break;
-                    case 'feedback': renderListItems(await fetchDataAsArray('feedback'), view); break;
+                    case 'notifications':
+                        notificationsCache = await fetchDataAsArray('notifications');
+                        renderListItems(notificationsCache, view);
+                        break;
+                    case 'feedback':
+                        feedbackCache = await fetchDataAsArray('feedback');
+                        renderListItems(feedbackCache, view);
+                        break;
                     case 'swa-media-ads': renderListItems(await fetchDataAsArray('swaMediaAds'), view); break;
+                    case 'junior-admin-control':
+                        listContainer.innerHTML = '<p class="text-center text-slate-500">Junior admin control is managed from the form above.</p>';
+                        listTitle.textContent = 'Junior Admin Control';
+                        break;
+                    case 'junior-admin-uploads':
+                        const juniorUploads = getJuniorUploadItems();
+                        document.getElementById('user-stats-container').innerHTML = `
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="bg-gray-800 p-4 rounded-lg text-center">
+                                    <p class="text-sm text-slate-400">Junior Uploads</p>
+                                    <p class="text-2xl font-bold text-cyan-300">${juniorUploads.length}</p>
+                                </div>
+                                <div class="bg-gray-800 p-4 rounded-lg text-center">
+                                    <p class="text-sm text-slate-400">Movies</p>
+                                    <p class="text-2xl font-bold text-white">${juniorUploads.filter(item => item.contentType === 'movies').length}</p>
+                                </div>
+                                <div class="bg-gray-800 p-4 rounded-lg text-center">
+                                    <p class="text-sm text-slate-400">Last Login</p>
+                                    <p class="text-sm font-semibold text-emerald-300">${juniorAdminTracking.lastLoginAt ? new Date(juniorAdminTracking.lastLoginAt).toLocaleString('en-GB') : 'No login tracked yet'}</p>
+                                </div>
+                            </div>
+                        `;
+                        renderListItems(juniorUploads, view);
+                        break;
                     case 'banners': 
                     case 'series-banners': 
                     case 'story-banners':
@@ -2363,10 +2962,11 @@
                         const now = Date.now();
                         const premiumUsers = users.filter(u => u.premiumExpiry && u.premiumExpiry > now).length;
                         const nonPremiumUsers = users.length - premiumUsers;
+                        const recentVisitDays = getVisitEntriesByDay().slice(0, 7);
 
                         const statsContainer = document.getElementById('user-stats-container');
                         statsContainer.innerHTML = `
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                                 <div class="bg-gray-800 p-4 rounded-lg text-center">
                                     <p class="text-sm text-slate-400">Total Users</p>
                                     <p class="text-2xl font-bold">${users.length}</p>
@@ -2378,6 +2978,21 @@
                                 <div class="bg-gray-800 p-4 rounded-lg text-center">
                                     <p class="text-sm text-yellow-400">Unpaid Users</p>
                                     <p class="text-2xl font-bold text-yellow-400">${nonPremiumUsers}</p>
+                                </div>
+                                <div class="bg-gray-800 p-4 rounded-lg text-center">
+                                    <p class="text-sm text-cyan-400">Visitors Today</p>
+                                    <p class="text-2xl font-bold text-cyan-400">${getUniqueVisitorsForDay()}</p>
+                                </div>
+                            </div>
+                            <div class="mt-4 bg-gray-900 rounded-lg p-4">
+                                <p class="text-sm text-slate-400 mb-3">Website attendance per day</p>
+                                <div class="space-y-2">
+                                    ${recentVisitDays.length > 0 ? recentVisitDays.map(entry => `
+                                        <div class="flex items-center justify-between text-sm border-b border-gray-800 pb-2">
+                                            <span class="text-slate-200">${escapeHtml(entry.id || 'Unknown day')}</span>
+                                            <span class="text-cyan-300 font-semibold">${Object.keys(entry.users || {}).length} users</span>
+                                        </div>
+                                    `).join('') : '<p class="text-sm text-slate-500">No attendance recorded yet.</p>'}
                                 </div>
                             </div>
                         `;
@@ -2422,6 +3037,9 @@
                         renderListItems(subscriptionUsers, view);
                         break;
                     default: listContainer.innerHTML = '<p class="text-center text-slate-500">Select a category to view items.</p>';
+                }
+                if (['notifications', 'feedback', 'junior-admin-uploads'].includes(view)) {
+                    markAlertViewAsSeen(view);
                 }
             } catch(error) {
                 console.error(`Error rendering list for ${view}:`, error);
@@ -2472,6 +3090,13 @@
             if (confirm(`Are you sure you want to delete this ${getDisplayName(currentView)}? This cannot be undone.`)) {
                 try {
                     await remove(ref(db, `${dbPath}/${id}`));
+                    if (currentView === 'users') {
+                        await Promise.allSettled([
+                            remove(ref(db, `watchAnalytics/users/${id}`)),
+                            remove(ref(db, `downloadAnalytics/users/${id}`)),
+                            remove(ref(db, `blockedActors/${id}`))
+                        ]);
+                    }
                     alert('Item deleted successfully.');
                     await fetchInitialData();
                     renderList(currentView);
@@ -2479,6 +3104,64 @@
                     console.error('Delete error:', error);
                     alert('Failed to delete item.');
                 }
+            }
+        };
+
+        const handleJuniorUploadDelete = async (contentId, contentType) => {
+            if (!contentId || !contentType) return;
+            const dbPath = contentType === 'series' ? 'series' : 'movies';
+            if (!confirm(`Delete this junior admin ${contentType === 'series' ? 'series' : 'movie'}? This cannot be undone.`)) return;
+
+            try {
+                await remove(ref(db, `${dbPath}/${contentId}`));
+                alert('Junior admin content deleted successfully.');
+                await fetchInitialData();
+                renderList(currentView);
+            } catch (error) {
+                console.error('Junior upload delete error:', error);
+                alert('Failed to delete junior admin content.');
+            }
+        };
+
+        const handleUserBlockToggle = async (userId) => {
+            if (!userId) return;
+            const user = usersCache.find(item => item.id === userId);
+            if (!user) {
+                alert('User not found.');
+                return;
+            }
+
+            const shouldBlock = !isUserBlocked(user);
+            const confirmMessage = shouldBlock
+                ? `Block user ${user.uid || user.id}?`
+                : `Unblock user ${user.uid || user.id}?`;
+            if (!confirm(confirmMessage)) return;
+
+            try {
+                await update(ref(db, `users/${userId}`), {
+                    isBlocked: shouldBlock,
+                    blocked: shouldBlock,
+                    blockedAt: shouldBlock ? Date.now() : 0,
+                    blockedBy: shouldBlock ? 'admin1' : '',
+                });
+
+                if (shouldBlock) {
+                    await set(ref(db, `blockedActors/${userId}`), {
+                        isBlocked: true,
+                        blockedAt: Date.now(),
+                        blockedBy: 'admin1',
+                        reason: 'Blocked from admin1 user management'
+                    });
+                } else {
+                    await remove(ref(db, `blockedActors/${userId}`));
+                }
+
+                alert(shouldBlock ? 'User blocked successfully.' : 'User unblocked successfully.');
+                await fetchInitialData();
+                renderList(currentView);
+            } catch (error) {
+                console.error('User block toggle error:', error);
+                alert('Failed to update user block status.');
             }
         };
 
@@ -2567,11 +3250,14 @@
                     case 'games':
                         formContainer.innerHTML = gameFormTemplate();
                         addFormEventListeners();
+                        document.getElementById('gameCategory').value = data.category || '';
                         document.getElementById('genre').value = data.genre || '';
                         document.getElementById('platform').value = data.platform || '';
+                        document.getElementById('gameSize').value = data.size || '';
                         document.getElementById('developer').value = data.developer || '';
                         document.getElementById('badge').value = data.badge || '';
                         document.getElementById('tags').value = data.tags || '';
+                        document.getElementById('gamePassword').value = data.password || '';
                         document.getElementById('playUrl').value = data.playUrl || '';
                         document.getElementById('sortOrder').value = data.sortOrder || '';
                         document.getElementById('featured-toggle').checked = data.isFeatured === true;
@@ -2591,11 +3277,14 @@
                 if(document.getElementById('year')) document.getElementById('year').value = data.year || '';
                 if(document.getElementById('rating')) document.getElementById('rating').value = data.rating || '';
                 if(document.getElementById('description')) document.getElementById('description').value = data.description || '';
+                if(document.getElementById('gameCategory')) document.getElementById('gameCategory').value = data.category || '';
                 if(document.getElementById('genre')) document.getElementById('genre').value = data.genre || '';
                 if(document.getElementById('platform')) document.getElementById('platform').value = data.platform || '';
+                if(document.getElementById('gameSize')) document.getElementById('gameSize').value = data.size || '';
                 if(document.getElementById('developer')) document.getElementById('developer').value = data.developer || '';
                 if(document.getElementById('badge')) document.getElementById('badge').value = data.badge || '';
                 if(document.getElementById('tags')) document.getElementById('tags').value = data.tags || '';
+                if(document.getElementById('gamePassword')) document.getElementById('gamePassword').value = data.password || '';
                 if(document.getElementById('cast')) document.getElementById('cast').value = data.cast || '';
                 if(document.getElementById('playUrl')) document.getElementById('playUrl').value = data.playUrl || '';
                 if(document.getElementById('watchUrl')) document.getElementById('watchUrl').value = data.watchUrl || '';
@@ -2607,6 +3296,8 @@
                 if(document.getElementById('featured-toggle')) document.getElementById('featured-toggle').checked = data.isFeatured === true;
                 if(document.getElementById('published-toggle')) document.getElementById('published-toggle').checked = data.isPublished !== false;
                 if(document.getElementById('movie-of-the-week-toggle')) document.getElementById('movie-of-the-week-toggle').checked = data.isMovieOfTheWeek === true;
+                if(document.getElementById('free-access-toggle')) document.getElementById('free-access-toggle').checked = data.isFreeAccess === true || data.freeWatch === true;
+                if(document.getElementById('home-free-toggle')) document.getElementById('home-free-toggle').checked = data.isHomeFreeSpotlight === true;
             }
             window.scrollTo({ top: 0, behavior: 'smooth' });
         };
@@ -2621,7 +3312,8 @@
              try {
                 const [
                     categoriesData, djGenresData, storyGenresData, moviesData, seriesData, gamesData, storiesData, 
-                    adultData, connectionData, xxxData, usersData, watchAnalyticsUsersSnap, contentWatchAnalyticsSnap
+                    adultData, connectionData, xxxData, usersData, watchAnalyticsUsersSnap, downloadAnalyticsUsersSnap, contentWatchAnalyticsSnap, visitAnalyticsDailySnap,
+                    notificationsData, feedbackData, juniorAdminTrackingSnap
                 ] = await Promise.all([
                     fetchDataAsArray('categories'),
                     fetchDataAsArray('djgenres'),
@@ -2635,7 +3327,12 @@
                     fetchDataAsArray('xxx'),
                     fetchDataAsArray('users'),
                     get(ref(db, 'watchAnalytics/users')),
+                    get(ref(db, 'downloadAnalytics/users')),
                     get(ref(db, 'watchAnalytics/content')),
+                    get(ref(db, 'visitAnalytics/daily')),
+                    fetchDataAsArray('notifications'),
+                    fetchDataAsArray('feedback'),
+                    get(ref(db, 'settings/juniorAdminTracking')),
                 ]);
                 categoriesCache = categoriesData;
                 djGenresCache = djGenresData;
@@ -2651,10 +3348,20 @@
                 watchAnalyticsUsersCache = watchAnalyticsUsersSnap.exists()
                     ? Object.entries(watchAnalyticsUsersSnap.val()).map(([id, value]) => ({ id, ...value }))
                     : [];
+                downloadAnalyticsUsersCache = downloadAnalyticsUsersSnap.exists()
+                    ? Object.entries(downloadAnalyticsUsersSnap.val()).map(([id, value]) => ({ id, ...value }))
+                    : [];
                 contentWatchAnalyticsCache = contentWatchAnalyticsSnap.exists()
                     ? Object.entries(contentWatchAnalyticsSnap.val()).map(([id, value]) => ({ id, ...value }))
                     : [];
+                visitAnalyticsDailyCache = visitAnalyticsDailySnap.exists()
+                    ? Object.entries(visitAnalyticsDailySnap.val()).map(([id, value]) => ({ id, ...value }))
+                    : [];
+                notificationsCache = notificationsData;
+                feedbackCache = feedbackData;
+                juniorAdminTracking = juniorAdminTrackingSnap.exists() ? { startedAt: 0, ...juniorAdminTrackingSnap.val() } : { startedAt: 0, lastLoginAt: 0 };
                 
+                updateNavAlertDots();
                 renderList(currentView);
             } catch (error) {
                 console.error("Error fetching initial data:", error);
@@ -2769,6 +3476,8 @@
             if(snapshot.exists()) {
                 document.getElementById('premium-toggle').checked = snapshot.val().isActive;
             }
+            couponsCache = await fetchDataAsArray('settings/coupons');
+            renderCouponList();
         };
 
         const loadPagesContent = async () => {
@@ -2934,12 +3643,18 @@
             document.addEventListener('click', (e) => {
                 const deleteBtn = e.target.closest('.delete-btn');
                 const editBtn = e.target.closest('.edit-btn');
+                const blockUserBtn = e.target.closest('.block-user-btn');
+                const juniorUploadDeleteBtn = e.target.closest('.junior-upload-delete-btn');
                 const feedbackReplyBtn = e.target.closest('.feedback-reply-btn');
                 const notificationReplyBtn = e.target.closest('.notification-reply-btn');
                 const notificationDeleteReplyBtn = e.target.closest('.notification-delete-reply-btn');
                 const notificationBlockUserBtn = e.target.closest('.notification-block-user-btn');
                 
-                if (feedbackReplyBtn) {
+                if (juniorUploadDeleteBtn) {
+                    handleJuniorUploadDelete(juniorUploadDeleteBtn.dataset.id, juniorUploadDeleteBtn.dataset.contentType);
+                } else if (blockUserBtn) {
+                    handleUserBlockToggle(blockUserBtn.dataset.id);
+                } else if (feedbackReplyBtn) {
                     handleFeedbackReply(feedbackReplyBtn.dataset.id);
                 } else if (notificationReplyBtn) {
                     handleNotificationReply(notificationReplyBtn.dataset.notificationId, notificationReplyBtn.dataset.replyId || '');
