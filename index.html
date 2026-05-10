@@ -71,15 +71,13 @@
                         <div class="border-t border-gray-700 my-2"></div>
                         <button data-view="pages" class="admin-nav-item text-left p-2 rounded hover:bg-gray-800"><i class="fas fa-file-alt w-6 mr-2"></i>Pages</button>
                         <button data-view="social-links" class="admin-nav-item text-left p-2 rounded hover:bg-gray-800"><i class="fas fa-share-alt w-6 mr-2"></i>Social Links</button>
-                        <button data-view="notifications" class="admin-nav-item text-left p-2 rounded hover:bg-gray-800 relative"><i class="fas fa-bell w-6 mr-2"></i>Notifications<span id="notifications-alert-dot" class="hidden absolute right-3 top-3 w-2.5 h-2.5 rounded-full bg-red-500"></span></button>
-                        <button data-view="feedback" class="admin-nav-item text-left p-2 rounded hover:bg-gray-800 relative"><i class="fas fa-comments w-6 mr-2"></i>Maoni<span id="feedback-alert-dot" class="hidden absolute right-3 top-3 w-2.5 h-2.5 rounded-full bg-red-500"></span></button>
+                        <button data-view="notifications" class="admin-nav-item text-left p-2 rounded hover:bg-gray-800"><i class="fas fa-bell w-6 mr-2"></i>Notifications</button>
+                        <button data-view="feedback" class="admin-nav-item text-left p-2 rounded hover:bg-gray-800"><i class="fas fa-comments w-6 mr-2"></i>Maoni</button>
                         <button data-view="push-notifications" class="admin-nav-item text-left p-2 rounded hover:bg-gray-800"><i class="fas fa-paper-plane w-6 mr-2"></i>Push Notifications</button>
                         <button data-view="advertisements" class="admin-nav-item text-left p-2 rounded hover:bg-gray-800"><i class="fas fa-ad w-6 mr-2"></i>Advertisements</button>
                         <button data-view="swa-media-ads" class="admin-nav-item text-left p-2 rounded hover:bg-gray-800"><i class="fas fa-bullhorn w-6 mr-2"></i>SwaMedia Ads</button>
                         <button data-view="update-ad" class="admin-nav-item text-left p-2 rounded hover:bg-gray-800"><i class="fas fa-sync-alt w-6 mr-2"></i>Update App Ad</button>
                         <div class="border-t border-gray-700 my-2"></div>
-                        <button data-view="junior-admin-control" class="admin-nav-item text-left p-2 rounded hover:bg-gray-800"><i class="fas fa-user-lock w-6 mr-2"></i>Junior Admin</button>
-                        <button data-view="junior-admin-uploads" class="admin-nav-item text-left p-2 rounded hover:bg-gray-800 relative"><i class="fas fa-folder-open w-6 mr-2"></i>Junior Uploads<span id="junior-uploads-alert-dot" class="hidden absolute right-3 top-3 w-2.5 h-2.5 rounded-full bg-red-500"></span></button>
                         <button data-view="users" class="admin-nav-item text-left p-2 rounded hover:bg-gray-800"><i class="fas fa-users w-6 mr-2"></i>Users</button>
                         <button data-view="subscriptions" class="admin-nav-item text-left p-2 rounded hover:bg-gray-800"><i class="fas fa-chart-pie w-6 mr-2"></i>Paid / Unpaid</button>
                         <button data-view="premium" class="admin-nav-item text-left p-2 rounded hover:bg-gray-800"><i class="fas fa-gem w-6 mr-2"></i>Premium</button>
@@ -164,10 +162,6 @@
         let contentWatchAnalyticsCache = [];
         let visitAnalyticsDailyCache = [];
         let couponsCache = [];
-        let notificationsCache = [];
-        let feedbackCache = [];
-        let adminControlSettings = { juniorBlocked: false };
-        let juniorAdminTracking = { startedAt: 0, lastLoginAt: 0 };
         let movieListFilter = 'all';
         let seriesListFilter = 'all';
         let isAdminInitialized = false;
@@ -178,7 +172,6 @@
         const ADMIN_LOGIN_USERNAME = 'swamedi@';
         const ADMIN_LOGIN_PASSWORD = '2006216';
         const ADMIN_AUTH_STORAGE_KEY = 'swamedia_admin_authenticated';
-        const ALERT_SEEN_STORAGE_KEY = 'swamedia_admin1_seen_alerts';
 
         const formContainer = document.getElementById('form-container');
         const listContainer = document.getElementById('list-container');
@@ -246,7 +239,6 @@
                 .sort((a, b) => Number(b.downloadedAt || 0) - Number(a.downloadedAt || 0))
                 .slice(0, 3);
         };
-        const isUserBlocked = (user = {}) => user?.isBlocked === true || user?.blocked === true;
         const formatTrackedEntryLabel = (entry = {}) => {
             const baseTitle = entry.title || 'Untitled';
             const seasonNumber = Number(entry.seasonNumber || 0);
@@ -308,106 +300,11 @@
                 'swa-media-ads': 'SwaMedia Ad',
                 'update-ad': 'Update App Ad',
                 'feedback': 'Maoni',
-                'junior-admin-control': 'Junior Admin Control',
-                'junior-admin-uploads': 'Junior Uploads',
                 subscriptions: 'Paid / Unpaid',
                 coupons: 'Coupons'
             };
             return names[view] || view;
         };
-
-        const getStoredAlertSeenState = () => {
-            try {
-                return JSON.parse(localStorage.getItem(ALERT_SEEN_STORAGE_KEY) || '{}');
-            } catch (error) {
-                console.error('Failed to parse alert seen state:', error);
-                return {};
-            }
-        };
-        const setStoredAlertSeenState = (state) => {
-            localStorage.setItem(ALERT_SEEN_STORAGE_KEY, JSON.stringify(state));
-        };
-        const getJuniorUploadItems = () => ([
-            ...moviesCache.filter(item => String(item.createdByAdminId || '') === 'junior_jaylan').map(item => ({ ...item, contentType: 'movies' })),
-            ...seriesCache.filter(item => String(item.createdByAdminId || '') === 'junior_jaylan').map(item => ({ ...item, contentType: 'series' }))
-        ]).sort((a, b) => Number(b.updatedAt || b.createdAt || b.timestamp || 0) - Number(a.updatedAt || a.createdAt || a.timestamp || 0));
-        const getLatestNotificationActivityAt = () => notificationsCache.reduce((latest, item) => {
-            const notification = normalizeNotificationItem(item);
-            const replyLatest = notification.replies.reduce((replyMax, reply) => Math.max(replyMax, Number(reply.time || 0)), 0);
-            return Math.max(latest, Number(notification.timestamp || 0), replyLatest);
-        }, 0);
-        const getLatestFeedbackActivityAt = () => feedbackCache.reduce((latest, item) => Math.max(
-            latest,
-            Number(item.timestamp || 0),
-            Number(item.repliedAt || 0)
-        ), 0);
-        const getLatestJuniorUploadActivityAt = () => getJuniorUploadItems().reduce((latest, item) => Math.max(
-            latest,
-            Number(item.updatedAt || 0),
-            Number(item.createdAt || 0),
-            Number(item.timestamp || 0)
-        ), 0);
-        const getLatestAlertTimestampForView = (view) => {
-            switch (view) {
-                case 'notifications': return getLatestNotificationActivityAt();
-                case 'feedback': return getLatestFeedbackActivityAt();
-                case 'junior-admin-uploads': return getLatestJuniorUploadActivityAt();
-                default: return 0;
-            }
-        };
-        const markAlertViewAsSeen = (view) => {
-            const latestTimestamp = getLatestAlertTimestampForView(view);
-            if (!latestTimestamp) return;
-            const nextState = {
-                ...getStoredAlertSeenState(),
-                [view]: latestTimestamp
-            };
-            setStoredAlertSeenState(nextState);
-            updateNavAlertDots();
-        };
-        const updateNavAlertDots = () => {
-            const seenState = getStoredAlertSeenState();
-            const alertViews = ['notifications', 'feedback', 'junior-admin-uploads'];
-            alertViews.forEach(view => {
-                const dot = document.getElementById(`${view}-alert-dot`);
-                if (!dot) return;
-                const latestTimestamp = getLatestAlertTimestampForView(view);
-                const seenTimestamp = Number(seenState[view] || 0);
-                dot.classList.toggle('hidden', latestTimestamp <= seenTimestamp || latestTimestamp === 0);
-            });
-        };
-
-        const juniorAdminControlTemplate = () => `
-            <h2 class="text-2xl font-bold mb-4">Junior Admin Control</h2>
-            <form id="junior-admin-control-form" class="space-y-4 bg-gray-900 p-6 rounded-lg">
-                <p class="text-slate-400 text-sm">Hapa admin1 anaweza ku-block au ku-unblock admin wa kawaida wa admin/admin.html.</p>
-                <div class="flex items-center justify-between gap-4 rounded-lg border border-gray-700 bg-black/40 p-4">
-                    <div>
-                        <label for="junior-admin-block-toggle" class="font-semibold text-lg">Block Regular Admin</label>
-                        <p class="text-sm text-slate-400 mt-1">Ikiwa imewashwa, admin wa kawaida hataweza kuingia kwenye panel yake.</p>
-                    </div>
-                    <div class="relative inline-block w-14 h-7 align-middle select-none">
-                        <input type="checkbox" id="junior-admin-block-toggle" class="toggle-checkbox absolute block w-7 h-7 rounded-full bg-white border-4 border-gray-600 appearance-none cursor-pointer"/>
-                        <label for="junior-admin-block-toggle" class="toggle-label block overflow-hidden h-7 rounded-full bg-gray-600 cursor-pointer"></label>
-                    </div>
-                </div>
-                <div>
-                    <label for="junior-admin-block-reason" class="${labelClass}">Reason</label>
-                    <textarea id="junior-admin-block-reason" class="${inputClass}" rows="3" placeholder="Andika sababu ya block/unblock"></textarea>
-                </div>
-                <p id="junior-admin-control-feedback" class="text-sm min-h-[20px] text-slate-400"></p>
-                <div class="pt-2">
-                    <button type="submit" class="${buttonClass}" id="junior-admin-control-submit-btn">Save Junior Admin Status</button>
-                </div>
-            </form>
-        `;
-
-        const juniorAdminUploadsTemplate = () => `
-            <div class="bg-gray-900 p-6 rounded-lg">
-                <h2 class="text-2xl font-bold text-white">Junior Admin Uploads</h2>
-                <p class="text-sm text-slate-400 mt-2">Hapa utaona movie na series zote zilizoongezwa na admin wa kawaida, pamoja na last login yake.</p>
-            </div>
-        `;
         
         const getCategoryOptions = (selectedCategory = "") => {
             let options = '<option value="">-- Select Category --</option>';
@@ -874,20 +771,40 @@
         `;
 
         const videoContentFormTemplate = (displayName) => {
+            const isConnectionView = currentView === 'connection';
+            const isSwaxView = currentView === 'xxx';
             return `
             <h2 class="text-2xl font-bold mb-4">${editId ? `Edit ${displayName}` : `Add New ${displayName}`}</h2>
             <form id="content-form" class="space-y-6">
                 <fieldset class="${fieldsetStyles}">
-                    <legend class="${legendStyles}">Content Details</legend>
+                    <legend class="${legendStyles}">${isSwaxView ? 'SwaX Details' : 'Content Details'}</legend>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div><label class="${labelClass}">Name</label><input required id="title" class="${inputClass}" type="text"></div>
-                        <div><label class="${labelClass}">Poster URL</label><input required id="posterUrl" class="${inputClass}" type="url"></div>
+                        <div><label class="${labelClass}">${isSwaxView ? 'Title Name' : 'Name'}</label><input required id="title" class="${inputClass}" type="text"></div>
+                        <div><label class="${labelClass}">${isSwaxView ? 'Icon URL' : 'Poster URL'}</label><input ${isSwaxView ? 'required' : 'required'} id="posterUrl" class="${inputClass}" type="url"></div>
+                        ${isSwaxView ? `
+                        <div><label class="${labelClass}">Direct URL</label><input required id="directUrl" class="${inputClass}" type="url" placeholder="https://example.com"></div>
+                        <div><label class="${labelClass}">Rate</label><input id="rating" class="${inputClass}" type="text" placeholder="e.g., 5.4"></div>
+                        ` : `
                         <div><label class="${labelClass}">Date</label><input id="date" class="${inputClass}" type="date"></div>
                         <div><label class="${labelClass}">Rating</label><input id="rating" class="${inputClass}" type="text" placeholder="e.g., 5.4"></div>
+                        `}
                     </div>
-                     <div><label class="${labelClass}">Video URL / Embed URL</label><input required id="videoUrl" class="${inputClass}" type="url"></div>
+                     ${isSwaxView ? '' : `
+                     <div><label class="${labelClass}">Video URL / Embed URL</label><input id="videoUrl" class="${inputClass}" type="url" placeholder="${isConnectionView ? 'Optional main preview/watch URL' : ''}"></div>
                      <div><label class="${labelClass}">Download URL</label><input id="downloadUrl" class="${inputClass}" type="url" placeholder="Optional direct download link"></div>
                      <div><label class="${labelClass}">Description</label><textarea id="description" class="${inputClass}" rows="3" placeholder="Short description"></textarea></div>
+                     ` }
+                     ${isConnectionView ? `
+                     <fieldset class="${fieldsetStyles}">
+                        <legend class="${legendStyles}">Connection Parts</legend>
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="text-lg font-semibold text-slate-300">Parts</h3>
+                            <button type="button" id="add-part-btn" class="${subButtonClass}">+ Add Part</button>
+                        </div>
+                        <p class="text-xs text-slate-400">Unaweza kuongeza parts nyingi kadri unavyotaka. Kila part ina watch URL na download URL.</p>
+                        <div id="parts-container" class="space-y-3 mt-3"></div>
+                     </fieldset>
+                     ` : '' }
                      <div class="flex items-center justify-between pt-4 border-t border-gray-800">
                         <div>
                             <label for="published-toggle" class="font-semibold text-lg">Published</label>
@@ -1537,40 +1454,6 @@
                 </div>
             </form>
         `;
-
-        const loadJuniorAdminControlSettings = async () => {
-            const snapshot = await get(ref(db, 'settings/adminControl'));
-            adminControlSettings = snapshot.exists() ? { juniorBlocked: false, ...snapshot.val() } : { juniorBlocked: false };
-            const toggle = document.getElementById('junior-admin-block-toggle');
-            const reason = document.getElementById('junior-admin-block-reason');
-            if (toggle) toggle.checked = adminControlSettings.juniorBlocked === true;
-            if (reason) reason.value = adminControlSettings.reason || '';
-        };
-
-        const handleJuniorAdminControlSave = async (e) => {
-            e.preventDefault();
-            const submitBtn = document.getElementById('junior-admin-control-submit-btn');
-            const feedbackEl = document.getElementById('junior-admin-control-feedback');
-            const blocked = document.getElementById('junior-admin-block-toggle')?.checked === true;
-            const reason = (document.getElementById('junior-admin-block-reason')?.value || '').trim();
-
-            setButtonLoading(submitBtn, true, 'Saving...', 'Save Junior Admin Status');
-            try {
-                adminControlSettings = {
-                    juniorBlocked: blocked,
-                    reason,
-                    updatedAt: Date.now(),
-                    updatedBy: 'admin1'
-                };
-                await set(ref(db, 'settings/adminControl'), adminControlSettings);
-                if (feedbackEl) feedbackEl.textContent = blocked ? 'Admin wa kawaida ame-blockiwa.' : 'Admin wa kawaida ameruhusiwa tena.';
-            } catch (error) {
-                console.error('Failed to save junior admin control:', error);
-                if (feedbackEl) feedbackEl.textContent = 'Imeshindikana kuhifadhi mabadiliko.';
-            } finally {
-                setButtonLoading(submitBtn, false, '', 'Save Junior Admin Status');
-            }
-        };
         
         const pagesFormTemplate = () => `
              <h2 class="text-2xl font-bold mb-4">Edit Static Pages</h2>
@@ -1688,14 +1571,6 @@
                 case 'users': 
                     formContainer.innerHTML = userManagementFormTemplate(); 
                     break;
-                case 'junior-admin-control':
-                    formContainer.innerHTML = juniorAdminControlTemplate();
-                    listViewContainer.style.display = 'none';
-                    await loadJuniorAdminControlSettings();
-                    break;
-                case 'junior-admin-uploads':
-                    formContainer.innerHTML = juniorAdminUploadsTemplate();
-                    break;
                 case 'subscriptions':
                     formContainer.innerHTML = userManagementFormTemplate();
                     break;
@@ -1737,7 +1612,6 @@
             document.getElementById('pages-form')?.addEventListener('submit', handlePagesSave);
             document.getElementById('social-links-form')?.addEventListener('submit', handleSocialLinksSave);
             document.getElementById('user-premium-form')?.addEventListener('submit', handleGrantPremium);
-            document.getElementById('junior-admin-control-form')?.addEventListener('submit', handleJuniorAdminControlSave);
             document.getElementById('generate-coupon-btn')?.addEventListener('click', () => {
                 const codeInput = document.getElementById('coupon-code');
                 if (codeInput) codeInput.value = generateCouponCodeValue();
@@ -1816,19 +1690,24 @@
 
         const addMoviePart = (part = { title: '', watchUrl: '', downloadUrl: '' }) => {
             const container = document.getElementById('parts-container');
+            if (!container) return;
             const partId = `part-${Date.now()}`;
             const partEl = document.createElement('div');
             partEl.className = 'part-item bg-gray-800 p-3 rounded-lg space-y-2 dynamic-item';
             partEl.id = partId;
             partEl.innerHTML = `
                 <div class="flex justify-between items-center">
-                    <span class="font-semibold text-slate-300">New Part</span>
+                    <span class="font-semibold text-slate-300">${part.title || 'New Part'}</span>
                     <button type="button" class="text-red-500 hover:text-red-400 remove-btn">&times;</button>
                 </div>
                 <input class="${inputClass} part-title" type="text" placeholder="Part Title (e.g., Part 1)" value="${part.title}">
                 <input class="${inputClass} part-watchUrl" type="url" placeholder="Watch URL" value="${part.watchUrl}">
                 <input class="${inputClass} part-downloadUrl" type="url" placeholder="Download URL" value="${part.downloadUrl}">
             `;
+            partEl.querySelector('.part-title')?.addEventListener('input', (event) => {
+                const titleEl = partEl.querySelector('.font-semibold');
+                if (titleEl) titleEl.textContent = event.target.value.trim() || 'New Part';
+            });
             partEl.querySelector('.remove-btn').addEventListener('click', () => partEl.remove());
             container.appendChild(partEl);
         };
@@ -2289,8 +2168,19 @@
                         };
                         break;
                     case 'connection':
-                    case 'xxx':
-                         data = {
+                        const connectionParts = {};
+                        document.querySelectorAll('.part-item').forEach((p, i) => {
+                            const partTitle = p.querySelector('.part-title')?.value?.trim() || `Part ${i + 1}`;
+                            const partWatchUrl = p.querySelector('.part-watchUrl')?.value?.trim() || '';
+                            const partDownloadUrl = p.querySelector('.part-downloadUrl')?.value?.trim() || '';
+                            if (!partWatchUrl && !partDownloadUrl) return;
+                            connectionParts[`part_${i + 1}`] = {
+                                title: partTitle,
+                                watchUrl: partWatchUrl,
+                                downloadUrl: partDownloadUrl
+                            };
+                        });
+                        data = {
                             title: document.getElementById('title').value,
                             posterUrl: document.getElementById('posterUrl').value,
                             date: document.getElementById('date').value,
@@ -2298,6 +2188,18 @@
                             videoUrl: document.getElementById('videoUrl').value,
                             downloadUrl: document.getElementById('downloadUrl').value,
                             description: document.getElementById('description').value,
+                            parts: Object.keys(connectionParts).length > 0 ? connectionParts : null,
+                            isPublished: document.getElementById('published-toggle').checked,
+                            type: currentView,
+                            createdAt: editId ? ( (currentView === 'connection' ? connectionContentCache : xxxContentCache).find(i => i.id === editId)?.createdAt || Date.now() ) : Date.now()
+                        };
+                        break;
+                    case 'xxx':
+                         data = {
+                            title: document.getElementById('title').value,
+                            posterUrl: document.getElementById('posterUrl').value,
+                            rating: document.getElementById('rating').value,
+                            directUrl: document.getElementById('directUrl').value,
                             isPublished: document.getElementById('published-toggle').checked,
                             type: currentView,
                             createdAt: editId ? ( (currentView === 'connection' ? connectionContentCache : xxxContentCache).find(i => i.id === editId)?.createdAt || Date.now() ) : Date.now()
@@ -2768,31 +2670,6 @@
                             </div>
                             <div class="flex flex-col space-y-2 flex-shrink-0">
                                 <button data-id="${item.id}" class="edit-btn ${subButtonClass} w-full px-4">Manage</button>
-                                <button data-id="${item.id}" class="block-user-btn ${subButtonClass} ${isUserBlocked(item) ? 'bg-emerald-700 hover:bg-emerald-600' : 'bg-yellow-700 hover:bg-yellow-600'} w-full px-4">${isUserBlocked(item) ? 'Unblock User' : 'Block User'}</button>
-                                <button data-id="${item.id}" class="delete-btn ${subButtonClass} bg-red-800/80 hover:bg-red-700 w-full px-4">Delete Account</button>
-                            </div>
-                        </div>
-                    `;
-                case 'junior-admin-uploads':
-                    const uploadDate = new Date(item.createdAt || item.updatedAt || item.timestamp || 0).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
-                    const uploadTypeLabel = item.contentType === 'series' ? 'Series' : 'Movie';
-                    return `
-                        <div class="flex items-start gap-4 w-full">
-                            <img src="${item.posterUrl || ''}" class="w-16 h-24 object-cover rounded flex-shrink-0 bg-gray-700" onerror="this.style.display='none'">
-                            <div class="flex-1 min-w-0">
-                                <div class="flex items-center gap-2 flex-wrap">
-                                    <p class="font-bold text-lg text-slate-100 truncate" title="${title}">${title}</p>
-                                    <span class="text-xs px-2 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-300">${uploadTypeLabel}</span>
-                                </div>
-                                <div class="text-sm text-slate-400 mt-1 flex items-center gap-x-4 gap-y-1 flex-wrap">
-                                    <span><i class="fas fa-calendar-alt w-4 mr-1 text-slate-500"></i>${uploadDate}</span>
-                                    ${item.category ? `<span><i class="fas fa-tag w-4 mr-1 text-slate-500"></i>${item.category}</span>` : ''}
-                                    ${item.genre ? `<span><i class="fas fa-layer-group w-4 mr-1 text-slate-500"></i>${item.genre}</span>` : ''}
-                                </div>
-                                <div class="mt-2 text-xs text-slate-500 font-mono">${item.id}</div>
-                            </div>
-                            <div class="flex flex-col space-y-2 flex-shrink-0">
-                                <button data-id="${item.id}" data-content-type="${item.contentType}" class="junior-upload-delete-btn ${subButtonClass} bg-red-800/80 hover:bg-red-700 w-full px-4">Delete</button>
                             </div>
                         </div>
                     `;
@@ -2918,39 +2795,9 @@
                     case 'genres': renderListItems(await fetchDataAsArray('categories'), view); break;
                     case 'djgenres': renderListItems(await fetchDataAsArray('djgenres'), view); break;
                     case 'story-genres': renderListItems(await fetchDataAsArray('story-genres'), view); break;
-                    case 'notifications':
-                        notificationsCache = await fetchDataAsArray('notifications');
-                        renderListItems(notificationsCache, view);
-                        break;
-                    case 'feedback':
-                        feedbackCache = await fetchDataAsArray('feedback');
-                        renderListItems(feedbackCache, view);
-                        break;
+                    case 'notifications': renderListItems(await fetchDataAsArray('notifications'), view); break;
+                    case 'feedback': renderListItems(await fetchDataAsArray('feedback'), view); break;
                     case 'swa-media-ads': renderListItems(await fetchDataAsArray('swaMediaAds'), view); break;
-                    case 'junior-admin-control':
-                        listContainer.innerHTML = '<p class="text-center text-slate-500">Junior admin control is managed from the form above.</p>';
-                        listTitle.textContent = 'Junior Admin Control';
-                        break;
-                    case 'junior-admin-uploads':
-                        const juniorUploads = getJuniorUploadItems();
-                        document.getElementById('user-stats-container').innerHTML = `
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                <div class="bg-gray-800 p-4 rounded-lg text-center">
-                                    <p class="text-sm text-slate-400">Junior Uploads</p>
-                                    <p class="text-2xl font-bold text-cyan-300">${juniorUploads.length}</p>
-                                </div>
-                                <div class="bg-gray-800 p-4 rounded-lg text-center">
-                                    <p class="text-sm text-slate-400">Movies</p>
-                                    <p class="text-2xl font-bold text-white">${juniorUploads.filter(item => item.contentType === 'movies').length}</p>
-                                </div>
-                                <div class="bg-gray-800 p-4 rounded-lg text-center">
-                                    <p class="text-sm text-slate-400">Last Login</p>
-                                    <p class="text-sm font-semibold text-emerald-300">${juniorAdminTracking.lastLoginAt ? new Date(juniorAdminTracking.lastLoginAt).toLocaleString('en-GB') : 'No login tracked yet'}</p>
-                                </div>
-                            </div>
-                        `;
-                        renderListItems(juniorUploads, view);
-                        break;
                     case 'banners': 
                     case 'series-banners': 
                     case 'story-banners':
@@ -3038,9 +2885,6 @@
                         break;
                     default: listContainer.innerHTML = '<p class="text-center text-slate-500">Select a category to view items.</p>';
                 }
-                if (['notifications', 'feedback', 'junior-admin-uploads'].includes(view)) {
-                    markAlertViewAsSeen(view);
-                }
             } catch(error) {
                 console.error(`Error rendering list for ${view}:`, error);
                 listContainer.innerHTML = '<p class="text-center text-red-500">Failed to load items.</p>';
@@ -3090,13 +2934,6 @@
             if (confirm(`Are you sure you want to delete this ${getDisplayName(currentView)}? This cannot be undone.`)) {
                 try {
                     await remove(ref(db, `${dbPath}/${id}`));
-                    if (currentView === 'users') {
-                        await Promise.allSettled([
-                            remove(ref(db, `watchAnalytics/users/${id}`)),
-                            remove(ref(db, `downloadAnalytics/users/${id}`)),
-                            remove(ref(db, `blockedActors/${id}`))
-                        ]);
-                    }
                     alert('Item deleted successfully.');
                     await fetchInitialData();
                     renderList(currentView);
@@ -3104,64 +2941,6 @@
                     console.error('Delete error:', error);
                     alert('Failed to delete item.');
                 }
-            }
-        };
-
-        const handleJuniorUploadDelete = async (contentId, contentType) => {
-            if (!contentId || !contentType) return;
-            const dbPath = contentType === 'series' ? 'series' : 'movies';
-            if (!confirm(`Delete this junior admin ${contentType === 'series' ? 'series' : 'movie'}? This cannot be undone.`)) return;
-
-            try {
-                await remove(ref(db, `${dbPath}/${contentId}`));
-                alert('Junior admin content deleted successfully.');
-                await fetchInitialData();
-                renderList(currentView);
-            } catch (error) {
-                console.error('Junior upload delete error:', error);
-                alert('Failed to delete junior admin content.');
-            }
-        };
-
-        const handleUserBlockToggle = async (userId) => {
-            if (!userId) return;
-            const user = usersCache.find(item => item.id === userId);
-            if (!user) {
-                alert('User not found.');
-                return;
-            }
-
-            const shouldBlock = !isUserBlocked(user);
-            const confirmMessage = shouldBlock
-                ? `Block user ${user.uid || user.id}?`
-                : `Unblock user ${user.uid || user.id}?`;
-            if (!confirm(confirmMessage)) return;
-
-            try {
-                await update(ref(db, `users/${userId}`), {
-                    isBlocked: shouldBlock,
-                    blocked: shouldBlock,
-                    blockedAt: shouldBlock ? Date.now() : 0,
-                    blockedBy: shouldBlock ? 'admin1' : '',
-                });
-
-                if (shouldBlock) {
-                    await set(ref(db, `blockedActors/${userId}`), {
-                        isBlocked: true,
-                        blockedAt: Date.now(),
-                        blockedBy: 'admin1',
-                        reason: 'Blocked from admin1 user management'
-                    });
-                } else {
-                    await remove(ref(db, `blockedActors/${userId}`));
-                }
-
-                alert(shouldBlock ? 'User blocked successfully.' : 'User unblocked successfully.');
-                await fetchInitialData();
-                renderList(currentView);
-            } catch (error) {
-                console.error('User block toggle error:', error);
-                alert('Failed to update user block status.');
             }
         };
 
@@ -3263,12 +3042,17 @@
                         document.getElementById('featured-toggle').checked = data.isFeatured === true;
                         break;
                     case 'connection':
-                    case 'xxx':
                         formContainer.innerHTML = videoContentFormTemplate(getDisplayName(currentView));
                         addFormEventListeners();
                         document.getElementById('videoUrl').value = data.videoUrl || '';
                         document.getElementById('date').value = data.date || '';
                         document.getElementById('downloadUrl').value = data.downloadUrl || '';
+                        if (data.parts) Object.values(data.parts).forEach(part => addMoviePart(part));
+                        break;
+                    case 'xxx':
+                        formContainer.innerHTML = videoContentFormTemplate(getDisplayName(currentView));
+                        addFormEventListeners();
+                        if (document.getElementById('directUrl')) document.getElementById('directUrl').value = data.directUrl || '';
                         break;
                  }
                 document.getElementById('title').value = data.title || '';
@@ -3312,8 +3096,7 @@
              try {
                 const [
                     categoriesData, djGenresData, storyGenresData, moviesData, seriesData, gamesData, storiesData, 
-                    adultData, connectionData, xxxData, usersData, watchAnalyticsUsersSnap, downloadAnalyticsUsersSnap, contentWatchAnalyticsSnap, visitAnalyticsDailySnap,
-                    notificationsData, feedbackData, juniorAdminTrackingSnap
+                    adultData, connectionData, xxxData, usersData, watchAnalyticsUsersSnap, downloadAnalyticsUsersSnap, contentWatchAnalyticsSnap, visitAnalyticsDailySnap
                 ] = await Promise.all([
                     fetchDataAsArray('categories'),
                     fetchDataAsArray('djgenres'),
@@ -3330,9 +3113,6 @@
                     get(ref(db, 'downloadAnalytics/users')),
                     get(ref(db, 'watchAnalytics/content')),
                     get(ref(db, 'visitAnalytics/daily')),
-                    fetchDataAsArray('notifications'),
-                    fetchDataAsArray('feedback'),
-                    get(ref(db, 'settings/juniorAdminTracking')),
                 ]);
                 categoriesCache = categoriesData;
                 djGenresCache = djGenresData;
@@ -3357,11 +3137,7 @@
                 visitAnalyticsDailyCache = visitAnalyticsDailySnap.exists()
                     ? Object.entries(visitAnalyticsDailySnap.val()).map(([id, value]) => ({ id, ...value }))
                     : [];
-                notificationsCache = notificationsData;
-                feedbackCache = feedbackData;
-                juniorAdminTracking = juniorAdminTrackingSnap.exists() ? { startedAt: 0, ...juniorAdminTrackingSnap.val() } : { startedAt: 0, lastLoginAt: 0 };
                 
-                updateNavAlertDots();
                 renderList(currentView);
             } catch (error) {
                 console.error("Error fetching initial data:", error);
@@ -3643,18 +3419,12 @@
             document.addEventListener('click', (e) => {
                 const deleteBtn = e.target.closest('.delete-btn');
                 const editBtn = e.target.closest('.edit-btn');
-                const blockUserBtn = e.target.closest('.block-user-btn');
-                const juniorUploadDeleteBtn = e.target.closest('.junior-upload-delete-btn');
                 const feedbackReplyBtn = e.target.closest('.feedback-reply-btn');
                 const notificationReplyBtn = e.target.closest('.notification-reply-btn');
                 const notificationDeleteReplyBtn = e.target.closest('.notification-delete-reply-btn');
                 const notificationBlockUserBtn = e.target.closest('.notification-block-user-btn');
                 
-                if (juniorUploadDeleteBtn) {
-                    handleJuniorUploadDelete(juniorUploadDeleteBtn.dataset.id, juniorUploadDeleteBtn.dataset.contentType);
-                } else if (blockUserBtn) {
-                    handleUserBlockToggle(blockUserBtn.dataset.id);
-                } else if (feedbackReplyBtn) {
+                if (feedbackReplyBtn) {
                     handleFeedbackReply(feedbackReplyBtn.dataset.id);
                 } else if (notificationReplyBtn) {
                     handleNotificationReply(notificationReplyBtn.dataset.notificationId, notificationReplyBtn.dataset.replyId || '');
