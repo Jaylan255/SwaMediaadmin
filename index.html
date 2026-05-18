@@ -18,10 +18,28 @@
         .toggle-checkbox:checked + .toggle-label { background-color: #ef4444; }
         .toggle-checkbox { transition: all 0.2s ease-in-out; }
         .admin-page-section { animation: fadeInUp 0.2s ease-out; }
+        .admin-loader-overlay {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(2, 6, 23, 0.78);
+            backdrop-filter: blur(6px);
+            z-index: 9999;
+        }
+        .admin-loader-overlay.active { display: flex; }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body class="bg-black text-slate-200">
+
+    <div id="admin-loader-overlay" class="admin-loader-overlay">
+        <div class="rounded-2xl border border-white/10 bg-gray-900 px-6 py-5 text-center shadow-2xl">
+            <div class="mx-auto mb-3 h-10 w-10 rounded-full border-4 border-red-500/25 border-t-red-500 animate-spin"></div>
+            <p class="text-sm font-semibold text-white">Loading admin data...</p>
+        </div>
+    </div>
 
     <div id="admin-login-screen" class="min-h-screen flex items-center justify-center p-4">
         <div class="w-full max-w-md bg-gray-900 border border-gray-800 rounded-2xl shadow-2xl p-6">
@@ -186,6 +204,7 @@
         const adminContentArea = document.getElementById('admin-content-area');
         const adminBackBtn = document.getElementById('admin-back-btn');
         const adminMobileTitle = document.getElementById('admin-mobile-title');
+        const adminLoaderOverlay = document.getElementById('admin-loader-overlay');
 
         const inputClass = "w-full bg-gray-900 border border-gray-700 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-red-500";
         const labelClass = "block text-sm font-medium text-slate-400 mb-1";
@@ -213,6 +232,10 @@
             button.innerHTML = isLoading
                 ? `<i class="fas fa-spinner fa-spin mr-2"></i>${loadingText}`
                 : (fallbackText || button.dataset.defaultHtml);
+        };
+        const setAdminLoading = (isLoading = false) => {
+            if (!adminLoaderOverlay) return;
+            adminLoaderOverlay.classList.toggle('active', isLoading);
         };
         const formatAdminRemainingTime = (expiryValue = 0) => {
             const remainingMs = Number(expiryValue || 0) - Date.now();
@@ -2891,18 +2914,23 @@
             }
         };
 
-        const handleSwitchView = (e) => {
+        const handleSwitchView = async (e) => {
             const button = e.target.closest('.admin-nav-item');
             const newView = button?.dataset.view;
             if (!newView) return;
             if (newView === currentView) return;
             
-            currentView = newView;
-            setAdminRoute(newView);
-            document.getElementById('admin-search-bar').value = '';
-            document.getElementById('admin-search-bar').placeholder = `Search in ${getDisplayName(newView) || newView}...`;
-            renderForm();
-            renderList(currentView);
+            setAdminLoading(true);
+            try {
+                currentView = newView;
+                setAdminRoute(newView);
+                document.getElementById('admin-search-bar').value = '';
+                document.getElementById('admin-search-bar').placeholder = `Search in ${getDisplayName(newView) || newView}...`;
+                renderForm();
+                await renderList(currentView);
+            } finally {
+                setAdminLoading(false);
+            }
         };
 
         const handleBackToAdminMenu = () => {
